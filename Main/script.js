@@ -702,4 +702,62 @@ carousels.forEach((carousel) => {
       nums.forEach(run);
     }
   })();
+
+  // ---------------- Back to top button with scroll progress ----------------
+  (function backToTop() {
+    const btn = document.getElementById('backToTop');
+    if (!btn) return;
+
+    const circle = btn.querySelector('.progress-ring__circle');
+    const R = 52; // matches r in SVG
+    const CIRC = 2 * Math.PI * R;
+    if (circle) {
+      circle.style.strokeDasharray = String(CIRC);
+      circle.style.strokeDashoffset = String(CIRC);
+    }
+
+    const showAfter = 120; // px scrolled before showing button
+
+    function update() {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      const docHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight) - window.innerHeight;
+      const pct = docHeight > 0 ? Math.min(1, Math.max(0, scrollTop / docHeight)) : 0;
+      const offset = CIRC - (CIRC * pct);
+      if (circle) circle.style.strokeDashoffset = String(offset);
+
+      if (scrollTop > showAfter) btn.classList.add('show'); else btn.classList.remove('show');
+    }
+
+    // Respect reduced motion for click behavior
+    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (prefersReduced) {
+        window.scrollTo({ top: 0 });
+        return;
+      }
+      // smooth scroll with easing
+      const start = window.pageYOffset || document.documentElement.scrollTop || 0;
+      const duration = 600;
+      const startTime = performance.now();
+
+      function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+
+      function step(now) {
+        const elapsed = Math.min(1, (now - startTime) / duration);
+        const eased = easeOutCubic(elapsed);
+        const y = start * (1 - eased);
+        window.scrollTo(0, y);
+        if (elapsed < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+
+    // update on scroll/resize
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    // initial update
+    update();
+  })();
 });
