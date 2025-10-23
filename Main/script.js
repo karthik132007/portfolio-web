@@ -210,6 +210,62 @@ carousels.forEach((carousel) => {
     revealables.forEach((el) => observer.observe(el));
   })();
 
+  // Back-to-top floating button with scroll progress
+  (function backToTop() {
+    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Create button markup
+    const btn = document.createElement('button');
+    btn.className = 'back-to-top';
+    btn.setAttribute('aria-label', 'Back to top');
+    btn.setAttribute('title', 'Back to top');
+    btn.innerHTML = `
+      <svg viewBox="0 0 36 36" aria-hidden="true">
+        <circle class="btt-ring" cx="18" cy="18" r="14"></circle>
+        <circle class="btt-progress" cx="18" cy="18" r="14" stroke-dasharray="88" stroke-dashoffset="88"></circle>
+        <g class="btt-icon">
+          <!-- chevron up -->
+          <path d="M10 22 L18 14 L26 22" stroke="white" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </g>
+      </svg>`;
+    document.body.appendChild(btn);
+
+    const progressRing = btn.querySelector('.btt-progress');
+    const radius = 14; const circumference = 2 * Math.PI * radius;
+    if (progressRing) {
+      progressRing.style.strokeDasharray = `${circumference}`;
+      progressRing.style.strokeDashoffset = `${circumference}`;
+    }
+
+    function updateProgress() {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      const docHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight) - window.innerHeight;
+      const pct = docHeight > 0 ? Math.min(1, scrollTop / docHeight) : 0;
+      const offset = circumference - pct * circumference;
+      if (progressRing) progressRing.style.strokeDashoffset = `${offset}`;
+
+      // Show after small scroll (8% of viewport) or always when scrolled > 120px
+      const show = scrollTop > Math.min(120, window.innerHeight * 0.08);
+      btn.classList.toggle('show', show);
+    }
+
+    // Smooth scroll to top on click
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (prefersReduced) {
+        window.scrollTo(0, 0);
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+
+    // Update on scroll and resize
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('resize', updateProgress);
+    // initial
+    updateProgress();
+  })();
+
   // Parallax on scroll and data-animate observer
   (function setupParallaxAndAnimations() {
     if (reducedMotion) return; // avoid heavy motion when user prefers reduced motion
@@ -701,63 +757,5 @@ carousels.forEach((carousel) => {
       // Fallback: run immediately
       nums.forEach(run);
     }
-  })();
-
-  // ---------------- Back to top button with scroll progress ----------------
-  (function backToTop() {
-    const btn = document.getElementById('backToTop');
-    if (!btn) return;
-
-    const circle = btn.querySelector('.progress-ring__circle');
-    const R = 52; // matches r in SVG
-    const CIRC = 2 * Math.PI * R;
-    if (circle) {
-      circle.style.strokeDasharray = String(CIRC);
-      circle.style.strokeDashoffset = String(CIRC);
-    }
-
-    const showAfter = 120; // px scrolled before showing button
-
-    function update() {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-      const docHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight) - window.innerHeight;
-      const pct = docHeight > 0 ? Math.min(1, Math.max(0, scrollTop / docHeight)) : 0;
-      const offset = CIRC - (CIRC * pct);
-      if (circle) circle.style.strokeDashoffset = String(offset);
-
-      if (scrollTop > showAfter) btn.classList.add('show'); else btn.classList.remove('show');
-    }
-
-    // Respect reduced motion for click behavior
-    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      if (prefersReduced) {
-        window.scrollTo({ top: 0 });
-        return;
-      }
-      // smooth scroll with easing
-      const start = window.pageYOffset || document.documentElement.scrollTop || 0;
-      const duration = 600;
-      const startTime = performance.now();
-
-      function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
-
-      function step(now) {
-        const elapsed = Math.min(1, (now - startTime) / duration);
-        const eased = easeOutCubic(elapsed);
-        const y = start * (1 - eased);
-        window.scrollTo(0, y);
-        if (elapsed < 1) requestAnimationFrame(step);
-      }
-      requestAnimationFrame(step);
-    });
-
-    // update on scroll/resize
-    window.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-    // initial update
-    update();
   })();
 });

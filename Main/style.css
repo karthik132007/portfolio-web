@@ -139,6 +139,42 @@ html {
   transition: transform var(--anim-quick) var(--ease-expo), box-shadow var(--anim-quick) var(--ease-expo);
 }
 
+/* Back-to-top floating button */
+.back-to-top {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+  box-shadow: 0 6px 18px rgba(10, 15, 30, 0.38);
+  display: inline-grid;
+  place-items: center;
+  z-index: 9999;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: transform 180ms var(--ease-expo), box-shadow 180ms var(--ease-expo), opacity 200ms linear;
+  opacity: 0; /* hidden until scrolled */
+}
+.back-to-top.show { opacity: 1; transform: translateY(0); }
+.back-to-top:focus { outline: 3px solid rgba(0,212,170,0.16); }
+.back-to-top:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(10,15,30,0.45); }
+
+.back-to-top svg { width: 34px; height: 34px; }
+.btt-ring { fill: none; stroke: rgba(255,255,255,0.12); stroke-width: 3; }
+.btt-progress { fill: none; stroke: var(--accent-color, #00d4aa); stroke-width: 3.6; stroke-linecap: round; }
+.btt-icon { transform: none; }
+
+@media (max-width: 640px) {
+  .back-to-top { right: 14px; bottom: 14px; width: 48px; height: 48px; }
+  .back-to-top svg { width: 28px; height: 28px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .back-to-top, .back-to-top * { transition: none !important; animation: none !important; }
+}
+
 .glass-card:hover {
   transform: translateY(-6px) scale(1.01);
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
@@ -798,69 +834,6 @@ html {
   height: 1.25rem;
   border-radius: 9999px;
   background-color: hsl(var(--primary));
-
-/* Back to top button (bottom-left) */
-.back-to-top {
-  position: fixed;
-  right: 1.25rem; /* moved to bottom-right */
-  bottom: 1.25rem;
-  z-index: 120;
-  width: 56px;
-  height: 56px;
-  padding: 0;
-  border-radius: 16px; /* floating rounded shape */
-  border: none;
-  background: linear-gradient(180deg, hsla(var(--card), 0.9), hsla(var(--card), 0.78));
-  box-shadow: 0 12px 30px rgba(0,0,0,0.32);
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  opacity: 0;
-  transform: translateY(12px) scale(0.98);
-  transition: opacity 280ms var(--ease-expo), transform 320ms var(--ease-expo), box-shadow 240ms var(--ease-expo);
-  will-change: transform, opacity;
-}
-.back-to-top.show {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-.back-to-top:focus { outline: 2px solid hsla(var(--primary), 0.6); outline-offset: 4px; }
-
-.back-to-top .bt-icon {
-  position: absolute;
-  pointer-events: none;
-  color: hsl(var(--foreground));
-  font-size: 1rem;
-}
-
-/* SVG progress ring styling */
-.progress-ring { transform: rotate(-90deg); }
-.progress-ring__background { stroke: hsla(var(--border), 0.12); }
-.progress-ring__circle {
-  stroke: hsl(var(--primary));
-  stroke-dasharray: 326.7; /* 2 * PI * r (r=52) */
-  stroke-dashoffset: 326.7;
-  transition: stroke-dashoffset 120ms linear, stroke 220ms linear;
-}
-
-/* subtle hover effect */
-.back-to-top:hover { transform: translateY(-6px) scale(1.03); box-shadow: 0 18px 36px rgba(0,0,0,0.36); }
-
-@keyframes bt-float {
-  0% { transform: translateY(0) translateZ(0); }
-  50% { transform: translateY(-6px) translateZ(0); }
-  100% { transform: translateY(0) translateZ(0); }
-}
-
-/* apply gentle floating when visible and prefers-reduced-motion not set */
-.back-to-top.show:not(.no-float) {
-  animation: bt-float 4.2s ease-in-out infinite;
-}
-
-@media (max-width: 640px) {
-  .back-to-top { right: 0.75rem; bottom: 0.9rem; width: 48px; height: 48px; border-radius: 12px; }
-  .progress-ring { width: 48px; height: 48px; }
-}
   display: flex;
   align-items: center;
   justify-content: center;
