@@ -2056,3 +2056,15 @@ html {
   .navigation { animation: none; }
 }
 
+/* Hide navigation (including mobile hamburger) on small / mobile viewports
+   Change to `.mobile-menu-button { display: none; }` if you only want to remove the
+   hamburger button but keep the nav bar visible. */
+@media (max-width: 767px) {
+  .navigation {
+    display: none !important;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+
