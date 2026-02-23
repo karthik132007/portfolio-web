@@ -1,761 +1,681 @@
-document.addEventListener('DOMContentLoaded', function () {
-  // Typing animation for hero section - robust typewriter
-  const roles = ['AI/ML Enthusiast', 'Data Analyst', 'Cloud Learner'];
-  const roleTextElement = document.querySelector('.role-text .text-accent');
-  const cursorElement = document.querySelector('.role-text .cursor');
+/* =========================================================
+   PORTFOLIO — SCRIPT (Premium Redesign)
+   ========================================================= */
 
-  if (roleTextElement) {
-    let roleIndex = 0;
-    let charIndex = 0;
+document.addEventListener('DOMContentLoaded', function () {
+  const reducedMotion =
+    window.matchMedia &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ==========================================
+  // 1. TYPING ANIMATION
+  // ==========================================
+  (function initTyping() {
+    const roles = ['AI/ML Enthusiast', 'Data Analyst', 'Cloud Learner'];
+    const textEl = document.querySelector('.role-text .text-accent');
+    const cursorEl = document.querySelector('.role-text .cursor');
+    if (!textEl) return;
+
+    let roleIdx = 0;
+    let charIdx = 0;
     let isDeleting = false;
-    const TYPING_SPEED = 100; // ms per char
-    const DELETING_SPEED = 50; // ms per char when deleting
-    const PAUSE_AFTER_TYPING = 2000; // pause when a word is fully typed
-    const PAUSE_AFTER_DELETING = 500; // short pause after fully deleted
+
+    const TYPING_SPEED = 100;
+    const DELETING_SPEED = 50;
+    const PAUSE_TYPED = 2000;
+    const PAUSE_DELETED = 400;
 
     function tick() {
-      const current = roles[roleIndex];
+      const currentRole = roles[roleIdx];
 
       if (!isDeleting) {
-        // add character
-        charIndex = Math.min(charIndex + 1, current.length);
-        roleTextElement.textContent = current.substring(0, charIndex);
-
-        if (charIndex === current.length) {
-          // finished typing - pause then start deleting
+        charIdx++;
+        textEl.textContent = currentRole.slice(0, charIdx);
+        if (charIdx === currentRole.length) {
           isDeleting = true;
-          setTimeout(tick, PAUSE_AFTER_TYPING);
+          setTimeout(tick, PAUSE_TYPED);
           return;
         }
         setTimeout(tick, TYPING_SPEED);
       } else {
-        // delete character
-        charIndex = Math.max(charIndex - 1, 0);
-        roleTextElement.textContent = current.substring(0, charIndex);
-
-        if (charIndex === 0) {
-          // finished deleting - move to next word
+        charIdx--;
+        textEl.textContent = currentRole.slice(0, charIdx);
+        if (charIdx === 0) {
           isDeleting = false;
-          roleIndex = (roleIndex + 1) % roles.length;
-          setTimeout(tick, PAUSE_AFTER_DELETING);
+          roleIdx = (roleIdx + 1) % roles.length;
+          setTimeout(tick, PAUSE_DELETED);
           return;
         }
         setTimeout(tick, DELETING_SPEED);
       }
     }
 
-    // gentle cursor handling: ensure cursor element exists and animate via class if desired
-    if (cursorElement) {
-      cursorElement.style.opacity = '1';
-    }
-
-    // start
+    if (cursorEl) cursorEl.style.opacity = '1';
     tick();
-  }
+  })();
 
-  // Smooth scrolling and active nav link highlighting
-  const navLinks = document.querySelectorAll('.nav-links a.nav-item');
-  navLinks.forEach((link) => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const targetId = link.getAttribute('href');
-      if (targetId) {
-        const targetElement = document.querySelector(targetId);
-        if (targetElement) {
-          targetElement.scrollIntoView({ behavior: 'smooth' });
-        }
-      }
-    });
-  });
-
-  // Tabs for Tech Stack section
-  const tabTriggers = document.querySelectorAll('.tab-trigger');
-  const tabsContent = document.querySelectorAll('.tabs-content');
-
-  if (tabTriggers.length > 0) {
-    tabTriggers.forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        const target = btn.getAttribute('data-tab');
-        if (!target) return;
-
-        // deactivate all triggers and contents
-        tabTriggers.forEach((t) => t.classList.remove('active'));
-        tabsContent.forEach((c) => c.classList.remove('active'));
-
-        // activate clicked
-        btn.classList.add('active');
-        const content = document.getElementById(target);
-        if (content) content.classList.add('active');
+  // ==========================================
+  // 2. SCROLL REVEAL (IntersectionObserver)
+  // ==========================================
+  (function initScrollReveal() {
+    if (reducedMotion) {
+      // Show everything immediately
+      document.querySelectorAll('[data-animate], .reveal-section').forEach((el) => {
+        el.classList.add('revealed');
       });
-
-      // keyboard support: left/right arrows
-      btn.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-          e.preventDefault();
-          const triggers = Array.from(tabTriggers);
-          const idx = triggers.indexOf(btn);
-          let nextIdx = idx;
-          if (e.key === 'ArrowRight') nextIdx = (idx + 1) % triggers.length;
-          if (e.key === 'ArrowLeft') nextIdx = (idx - 1 + triggers.length) % triggers.length;
-          triggers[nextIdx].focus();
-          triggers[nextIdx].click();
-        }
-      });
-    });
-  }
-  // Add this inside the DOMContentLoaded event listener in your script.js file
-
-// Project carousel functionality
-const carousels = document.querySelectorAll('.project-carousel');
-
-carousels.forEach((carousel) => {
-  const slides = carousel.querySelector('.carousel-slides');
-  const slideCount = slides.children.length;
-  let currentIndex = 0;
-
-  function showNextSlide() {
-    currentIndex = (currentIndex + 1) % slideCount;
-    slides.style.transform = `translateX(-${currentIndex * 100}%)`;
-  }
-
-    // Auto-advance with pause on hover/focus. Keep the interval id to clear when paused.
-    let carouselInterval = null;
-    const AUTOPLAY_MS = 3000;
-
-    function startCarousel() {
-      if (carouselInterval) return;
-      carouselInterval = setInterval(showNextSlide, AUTOPLAY_MS);
-      carousel.classList.remove('paused');
+      return;
     }
 
-    function stopCarousel() {
-      if (!carouselInterval) return;
-      clearInterval(carouselInterval);
-      carouselInterval = null;
-      carousel.classList.add('paused');
-    }
+    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -40px 0px' };
 
-    // start by default unless user prefers reduced motion
-    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!prefersReduced) startCarousel();
-
-    // Pause on hover / focus for accessibility
-    carousel.addEventListener('mouseenter', stopCarousel);
-    carousel.addEventListener('mouseleave', () => { if (!prefersReduced) startCarousel(); });
-    carousel.addEventListener('focusin', stopCarousel);
-    carousel.addEventListener('focusout', () => { if (!prefersReduced) startCarousel(); });
-});
-
-  const sections = document.querySelectorAll('section');
-  const nav = document.querySelector('.navigation');
-
-  window.addEventListener('scroll', () => {
-    // Nav scroll effect
-    if (window.scrollY > 50) {
-      nav.classList.add('scrolled');
-    } else {
-      nav.classList.remove('scrolled');
-    }
-
-    // Active link highlighting
-    let current = '';
-    sections.forEach((section) => {
-      const sectionTop = section.offsetTop;
-      if (pageYOffset >= sectionTop - 60) {
-        const sectionId = section.getAttribute('id');
-        if (sectionId) {
-          current = sectionId;
-        }
-      }
-    });
-
-    navLinks.forEach((link) => {
-      link.classList.remove('active');
-      const href = link.getAttribute('href');
-      if (href && href.includes(current)) {
-        link.classList.add('active');
-      }
-    });
-  });
-
-  // ---------------- Advanced Animations: reveal-on-scroll, blobs, parallax, modal handling ----------------
-
-  // Respect user prefers-reduced-motion for motion-heavy features
-  const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // Reveal on scroll using IntersectionObserver
-  (function setupRevealOnScroll() {
-    if (reducedMotion) return; // don't animate if user asked to reduce motion
-
-    let revealables = document.querySelectorAll('.reveal, .reveal-stagger');
-    // If there are no explicit reveal classes in the markup, add sensible defaults
-    if (revealables.length === 0) {
-      const defaults = Array.from(document.querySelectorAll('section, .project-card, .skill-item, .hero-text > *'));
-      defaults.forEach((el) => el.classList.add('reveal'));
-      revealables = document.querySelectorAll('.reveal, .reveal-stagger');
-    }
-    if (!('IntersectionObserver' in window) || revealables.length === 0) return;
-
-    const observer = new IntersectionObserver((entries, obs) => {
+    // Section-level reveals
+    const sectionObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('revealed');
-          // if stagger container, reveal children with small delays handled by CSS
-          // stop observing once revealed to save work
-          obs.unobserve(entry.target);
+          sectionObserver.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.12 });
+    }, observerOptions);
 
-    revealables.forEach((el) => observer.observe(el));
-  })();
-
-  // Back-to-top floating button with scroll progress
-  (function backToTop() {
-    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    // Create button markup
-    const btn = document.createElement('button');
-    btn.className = 'back-to-top';
-    btn.setAttribute('aria-label', 'Back to top');
-    btn.setAttribute('title', 'Back to top');
-    btn.innerHTML = `
-      <svg viewBox="0 0 36 36" aria-hidden="true">
-        <circle class="btt-ring" cx="18" cy="18" r="14"></circle>
-        <circle class="btt-progress" cx="18" cy="18" r="14" stroke-dasharray="88" stroke-dashoffset="88"></circle>
-        <g class="btt-icon">
-          <!-- chevron up -->
-          <path d="M10 22 L18 14 L26 22" stroke="white" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        </g>
-      </svg>`;
-    document.body.appendChild(btn);
-
-    const progressRing = btn.querySelector('.btt-progress');
-    const radius = 14; const circumference = 2 * Math.PI * radius;
-    if (progressRing) {
-      progressRing.style.strokeDasharray = `${circumference}`;
-      progressRing.style.strokeDashoffset = `${circumference}`;
-    }
-
-    function updateProgress() {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-      const docHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight) - window.innerHeight;
-      const pct = docHeight > 0 ? Math.min(1, scrollTop / docHeight) : 0;
-      const offset = circumference - pct * circumference;
-      if (progressRing) progressRing.style.strokeDashoffset = `${offset}`;
-
-      // Show after small scroll (8% of viewport) or always when scrolled > 120px
-      const show = scrollTop > Math.min(120, window.innerHeight * 0.08);
-      btn.classList.toggle('show', show);
-    }
-
-    // Smooth scroll to top on click
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      if (prefersReduced) {
-        window.scrollTo(0, 0);
-      } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
+    document.querySelectorAll('.reveal-section').forEach((el) => {
+      sectionObserver.observe(el);
     });
 
-    // Update on scroll and resize
-    window.addEventListener('scroll', updateProgress, { passive: true });
-    window.addEventListener('resize', updateProgress);
-    // initial
-    updateProgress();
+    // Element-level reveals
+    const elemObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          elemObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
+
+    document.querySelectorAll('[data-animate]').forEach((el) => {
+      elemObserver.observe(el);
+    });
   })();
 
-  // Parallax on scroll and data-animate observer
-  (function setupParallaxAndAnimations() {
-    if (reducedMotion) return; // avoid heavy motion when user prefers reduced motion
-
-    // Parallax: elements with data-depth="0.1" etc. depth is a multiplier
-    const parallaxEls = Array.from(document.querySelectorAll('[data-depth]'));
-    let ticking = false;
-
-    function onScroll() {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        const scrolled = window.scrollY || window.pageYOffset;
-        parallaxEls.forEach((el) => {
-          const depth = parseFloat(el.getAttribute('data-depth')) || 0;
-          // compute translateY based on element position and depth
-          const y = scrolled * depth;
-          el.style.transform = `translate3d(0, ${y}px, 0)`;
-        });
-        ticking = false;
-      });
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    // initial call
-    onScroll();
-
-    // IntersectionObserver for in/out animations using data-animate value
-    const animTargets = document.querySelectorAll('[data-animate]');
-    if ('IntersectionObserver' in window && animTargets.length) {
-      const animObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          const el = entry.target;
-          const mode = el.getAttribute('data-animate') || 'fade-up';
-          if (entry.isIntersecting) {
-            el.classList.remove('anim-hidden');
-            el.classList.add('anim-visible');
-            // optional directional classes
-            if (mode.includes('left')) el.classList.add('slide-left');
-            if (mode.includes('right')) el.classList.add('slide-right');
-            if (mode.includes('up')) el.classList.add('slide-up');
-            if (mode.includes('zoom')) el.classList.add('zoom-in');
-          } else {
-            // optionally hide again when leaving viewport
-            el.classList.remove('anim-visible');
-            el.classList.add('anim-hidden');
-            el.classList.remove('slide-left','slide-right','slide-up','zoom-in');
-          }
-        });
-      }, { threshold: 0.12 });
-
-      animTargets.forEach((t) => {
-        t.classList.add('anim-hidden');
-        animObserver.observe(t);
-      });
-    }
-  })();
-
-  // Smooth anchor scrolling + scrollspy + sticky nav state
-  (function navEnhancements() {
+  // ==========================================
+  // 3. NAVIGATION — Scrollspy + Smooth Scroll
+  // ==========================================
+  (function initNav() {
     const nav = document.querySelector('.navigation');
-    const links = Array.from(document.querySelectorAll('.nav-links a.nav-item[href^="#"]'));
+    const links = Array.from(
+      document.querySelectorAll('.nav-links a.nav-item[href^="#"]')
+    );
     const sections = Array.from(document.querySelectorAll('main section[id]'));
-    let spyTicking = false;
 
-    function getNavHeight() {
-      return nav ? nav.offsetHeight : 0;
+    // Sticky nav effect
+    function handleScroll() {
+      if (window.scrollY > 50) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
     }
 
-    // Smooth scroll for nav items with offset
-    links.forEach((a) => {
-      a.addEventListener('click', (e) => {
-        const href = a.getAttribute('href');
-        if (!href || !href.startsWith('#')) return;
-        const id = href.slice(1);
-        const target = document.getElementById(id);
-        if (!target) return;
-        e.preventDefault();
-        const top = target.getBoundingClientRect().top + window.pageYOffset - (getNavHeight() + 12);
-        window.scrollTo({ top, behavior: reducedMotion ? 'auto' : 'smooth' });
-      });
-    });
-
-    function onScroll() {
+    // Scrollspy
+    let spyTicking = false;
+    function handleSpy() {
       if (spyTicking) return;
       spyTicking = true;
       requestAnimationFrame(() => {
-        const y = window.pageYOffset || window.scrollY;
-        const navH = getNavHeight();
-        // toggle nav scrolled state
-        if (nav) nav.classList.toggle('scrolled', y > 8);
-        // find current section
+        const scrollY = window.scrollY + 120;
         let currentId = '';
-        for (const sec of sections) {
-          const rect = sec.getBoundingClientRect();
-          const top = rect.top + y - navH - 100;
-          const bottom = top + sec.offsetHeight;
-          if (y >= top && y < bottom) {
+
+        sections.forEach((sec) => {
+          if (sec.offsetTop <= scrollY) {
             currentId = sec.id;
-            break;
           }
-        }
-        // update active link
-        links.forEach((lnk) => {
-          const href = lnk.getAttribute('href') || '';
-          const isActive = currentId && href === `#${currentId}`;
-          lnk.classList.toggle('active', isActive);
+        });
+
+        links.forEach((link) => {
+          link.classList.toggle(
+            'active',
+            link.getAttribute('href') === `#${currentId}`
+          );
         });
         spyTicking = false;
       });
     }
 
-    window.addEventListener('scroll', onScroll, { passive: true });
-    // initial paint
-    onScroll();
+    window.addEventListener('scroll', () => {
+      handleScroll();
+      handleSpy();
+    }, { passive: true });
+
+    handleScroll();
+    handleSpy();
+
+    // Smooth scroll on click
+    links.forEach((link) => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        if (!href || !href.startsWith('#')) return;
+        const target = document.querySelector(href);
+        if (!target) return;
+        e.preventDefault();
+        const top = target.offsetTop - 80;
+        window.scrollTo({ top, behavior: reducedMotion ? 'auto' : 'smooth' });
+      });
+    });
   })();
 
-  // Create background layers: keep gradient, replace shapes with edge-only canvas network
-  (function createBackgroundLayers() {
-    // Remove any previously-added shapes/overlays
-    document.querySelectorAll('.network-overlay, .animated-blobs').forEach((el) => el.remove());
+  // ==========================================
+  // 4. MOBILE MENU
+  // ==========================================
+  (function initMobileMenu() {
+    const menuBtn = document.querySelector('.mobile-menu-button button');
+    const overlay = document.getElementById('mobileMenu');
+    const closeBtn = overlay?.querySelector('.mobile-menu-close');
+    const menuLinks = overlay?.querySelectorAll('a');
 
-    // Always add/keep subtle gradient (not heavy motion)
-    if (!document.querySelector('.animated-gradient')) {
-      const grad = document.createElement('div');
-      grad.className = 'animated-gradient';
-      document.body.appendChild(grad);
-    }
+    if (!menuBtn || !overlay) return;
 
-    // Add edge network canvas
-    if (!document.querySelector('.edge-network-canvas')) {
-      const c = document.createElement('canvas');
-      c.className = 'edge-network-canvas';
-      document.body.appendChild(c);
-      initEdgeNetworkCanvas(c, { reducedMotion });
-    }
-  })();
-
-  // Edge-only canvas network, theme-colored and lightweight
-  function initEdgeNetworkCanvas(canvas, opts) {
-    const ctx = canvas.getContext('2d');
-    const state = {
-      nodes: [],
-      conns: [],
-      packets: [],
-      rafId: null,
-      lastTime: 0,
-      reduced: !!(opts && opts.reducedMotion)
-    };
-
-    function hslVar(name, alpha = 1) {
-      const root = getComputedStyle(document.documentElement);
-      const raw = (root.getPropertyValue(name) || '').trim(); // e.g. "217 91% 60%"
-      const parts = raw.replace(/\s+/g, ', ');
-      return `hsla(${parts}, ${alpha})`;
-    }
-
-    const colors = {
-      line: hslVar('--accent', 0.42),
-      node: hslVar('--primary', 0.68),
-      packet: hslVar('--primary', 1),
-      packetGlow: hslVar('--primary', 0.6),
-      grid: hslVar('--accent', 0.09)
-    };
-
-    function resize() {
-      const dpr = Math.max(1, Math.min(2.5, window.devicePixelRatio || 1));
-      const w = Math.floor(window.innerWidth);
-      const h = Math.floor(window.innerHeight);
-      canvas.width = Math.floor(w * dpr);
-      canvas.height = Math.floor(h * dpr);
-      canvas.style.width = `${w}px`;
-      canvas.style.height = `${h}px`;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      buildGraph(w, h);
-    }
-
-    function edgePoint(w, h, side, idx, count, margin) {
-      // side: 0 top, 1 right, 2 bottom, 3 left
-      const t = (idx + 0.5) / count;
-      const jitter = (side % 2 === 0 ? h : w) * 0.03; // small jitter along inward axis
-      switch (side) {
-        case 0: return { x: margin + t * (w - margin * 2), y: margin + Math.random() * jitter };
-        case 1: return { x: w - margin - Math.random() * jitter, y: margin + t * (h - margin * 2) };
-        case 2: return { x: margin + t * (w - margin * 2), y: h - margin - Math.random() * jitter };
-        case 3: return { x: margin + Math.random() * jitter, y: margin + t * (h - margin * 2) };
-      }
-      return { x: 0, y: 0 };
-    }
-
-    function buildGraph(w, h) {
-      state.nodes = [];
-      state.conns = [];
-      state.packets = [];
-
-      const perEdge = Math.max(5, Math.round((w + h) / 600) + 5); // scale with screen
-      const margin = Math.max(16, Math.min(48, Math.round(Math.min(w, h) * 0.05)));
-
-      // Build nodes along each edge (excluding bottom edge: side === 2)
-      for (let side = 0; side < 4; side++) {
-        if (side === 2) continue; // skip bottom edge per user request
-        for (let i = 0; i < perEdge; i++) {
-          const p = edgePoint(w, h, side, i, perEdge, margin);
-          state.nodes.push({ x: p.x, y: p.y, pulse: Math.random() * Math.PI * 2 });
-        }
-      }
-
-      // Corner mini-clusters (top corners only; omit bottom corners)
-      const corners = [
-        { x: margin, y: margin },
-        { x: w - margin, y: margin }
-      ];
-      corners.forEach((c) => {
-        for (let i = 0; i < 3; i++) {
-          state.nodes.push({
-            x: c.x + (Math.random() - 0.5) * margin * 0.7,
-            y: c.y + (Math.random() - 0.5) * margin * 0.7,
-            pulse: Math.random() * Math.PI * 2
-          });
-        }
-      });
-
-      // Connect near neighbors along edges and a few diagonal hints
-      const N = state.nodes.length;
-      for (let i = 0; i < N; i++) {
-        for (let j = i + 1; j < N; j++) {
-          const a = state.nodes[i], b = state.nodes[j];
-          const dx = a.x - b.x, dy = a.y - b.y;
-          const d = Math.hypot(dx, dy);
-          const near = Math.min(w, h) * 0.18;
-          if (d < near && d > 24 && Math.random() < 0.14) {
-            state.conns.push({ a, b, len: d });
-          }
-        }
-      }
-      // Ensure continuous lines along each edge by linking ordered nodes
-      function linkEdge(filterFn, key) {
-        const list = state.nodes.filter(filterFn).sort((p, q) => p[key] - q[key]);
-        for (let i = 0; i < list.length - 1; i++) state.conns.push({ a: list[i], b: list[i + 1] });
-      }
-  linkEdge((p) => p.y < margin * 1.6, 'x'); // top
-  linkEdge((p) => p.x > w - margin * 1.6, 'y'); // right
-  // bottom edge intentionally omitted
-  linkEdge((p) => p.x < margin * 1.6, 'y'); // left
-    }
-
-    function drawGrid(w, h) {
-      // very faint edge grid
-      ctx.strokeStyle = colors.grid;
-      ctx.lineWidth = 1;
-      const step = Math.max(60, Math.min(120, Math.round(Math.min(w, h) / 10)));
-      ctx.setLineDash([4, 8]);
-      for (let x = 0; x <= w; x += step) {
-        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
-      }
-      for (let y = 0; y <= h; y += step) {
-        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
-      }
-      ctx.setLineDash([]);
-    }
-
-    function drawConnections() {
-      ctx.strokeStyle = colors.line;
-      ctx.lineWidth = 1.6;
-      ctx.setLineDash([6, 7]);
-      state.conns.forEach(({ a, b }) => {
-        ctx.beginPath();
-        ctx.moveTo(a.x, a.y);
-        ctx.lineTo(b.x, b.y);
-        ctx.stroke();
-      });
-      ctx.setLineDash([]);
-    }
-
-    function drawNodes(t) {
-      state.nodes.forEach((n) => {
-        const r = 1.8 + (Math.sin(t / 800 + n.pulse) + 1) * 0.7;
-        ctx.fillStyle = colors.node;
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
-        ctx.fill();
-      });
-    }
-
-    function spawnPacket() {
-      if (state.conns.length === 0) return;
-      const c = state.conns[Math.floor(Math.random() * state.conns.length)];
-      const dir = Math.random() < 0.5 ? 1 : -1;
-      const start = dir > 0 ? c.a : c.b;
-      const end = dir > 0 ? c.b : c.a;
-      state.packets.push({ start, end, t: 0, v: 0.008 + Math.random() * 0.006 });
-    }
-
-    function drawPackets() {
-      ctx.fillStyle = colors.packet;
-      state.packets.forEach((p, i) => {
-        p.t += p.v;
-        if (p.t >= 1) { state.packets.splice(i, 1); return; }
-        const x = p.start.x + (p.end.x - p.start.x) * p.t;
-        const y = p.start.y + (p.end.y - p.start.y) * p.t;
-
-        // glow
-        ctx.strokeStyle = colors.packetGlow;
-        ctx.lineWidth = 2.2;
-        ctx.strokeRect(x - 4, y - 4, 8, 8);
-        ctx.fillRect(x - 2.2, y - 2.2, 4.4, 4.4);
-      });
-      // keep a modest number of packets
-      if (state.packets.length < Math.max(4, Math.round(state.conns.length * 0.04)) && Math.random() < 0.7) {
-        spawnPacket();
-      }
-    }
-
-    function frame(ts) {
-      const w = canvas.clientWidth, h = canvas.clientHeight;
-      ctx.clearRect(0, 0, w, h);
-      drawGrid(w, h);
-      drawConnections();
-      drawNodes(ts || 0);
-      if (!state.reduced) drawPackets();
-      state.rafId = requestAnimationFrame(frame);
-    }
-
-    window.addEventListener('resize', resize);
-    resize();
-    if (state.reduced) {
-      // single paint without animation
-      drawGrid(canvas.clientWidth, canvas.clientHeight);
-      drawConnections();
-      drawNodes(0);
-    } else {
-      frame(0);
-    }
-    return state;
-  }
-
-  // Hero parallax: subtle movement based on mouse on large screens
-  (function heroParallax() {
-    const hero = document.querySelector('.hero-illustration');
-    if (!hero || reducedMotion) return;
-
-    hero.classList.add('parallax');
-    // limit event handling frequency
-    let raf = null;
-    function onMove(e) {
-      if (raf) return;
-      raf = requestAnimationFrame(() => {
-        const rect = hero.getBoundingClientRect();
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
-        const dx = (e.clientX - cx) / rect.width; // -0.5 .. 0.5
-        const dy = (e.clientY - cy) / rect.height;
-        const tx = dx * 12; // reduce values
-        const ty = dy * 10;
-        hero.style.transform = `translate3d(${tx}px, ${ty}px, 0) rotate(${dx * 3}deg)`;
-        raf = null;
-      });
-    }
-
-    // reset when leaving
-    function reset() {
-      hero.style.transform = '';
-    }
-
-    window.addEventListener('mousemove', onMove);
-    hero.addEventListener('mouseleave', reset);
-    // touch devices: small parallax on device orientation could be added later
-  })();
-
-  // Modal open/close for certificate thumbnail
-  (function modalHandling() {
-    const modalOverlay = document.querySelector('.modal-overlay');
-    const modalClose = modalOverlay ? modalOverlay.querySelector('.close-button') : null;
-    const certificateTriggers = document.querySelectorAll('.certificate-trigger');
-    if (!modalOverlay || certificateTriggers.length === 0) return;
-
-    function openModal(imgSrc, alt) {
-      const img = modalOverlay.querySelector('.modal-image');
-      if (img) {
-        img.src = imgSrc;
-        img.alt = alt || '';
-      }
-      modalOverlay.style.display = 'flex';
+    function openMenu() {
+      overlay.classList.add('active');
       document.body.style.overflow = 'hidden';
     }
 
-    function closeModal() {
-      modalOverlay.style.display = 'none';
+    function closeMenu() {
+      overlay.classList.remove('active');
       document.body.style.overflow = '';
     }
 
-    certificateTriggers.forEach((trigger) => {
-      trigger.addEventListener('click', () => {
-        const img = trigger.querySelector('img');
-        if (img) openModal(img.src, img.alt);
-      });
-    });
+    menuBtn.addEventListener('click', openMenu);
+    closeBtn?.addEventListener('click', closeMenu);
 
-    // Wire 'View Certification' buttons to open modal (use data-src attribute)
-    const viewButtons = document.querySelectorAll('.view-cert-btn');
-    viewButtons.forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        const href = btn.getAttribute('data-href');
-        if (href) {
-          // open external credential link in a new tab
-          window.open(href, '_blank', 'noopener noreferrer');
-          return;
+    menuLinks?.forEach((link) => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          e.preventDefault();
+          closeMenu();
+          const target = document.querySelector(href);
+          if (target) {
+            setTimeout(() => {
+              const top = target.offsetTop - 80;
+              window.scrollTo({
+                top,
+                behavior: reducedMotion ? 'auto' : 'smooth',
+              });
+            }, 300);
+          }
         }
-        const src = btn.getAttribute('data-src');
-        if (src) openModal(src, btn.getAttribute('aria-label') || 'Certificate');
       });
     });
 
-    modalOverlay.addEventListener('click', (e) => {
-      if (e.target === modalOverlay || e.target.classList.contains('close-button')) {
-        closeModal();
-      }
-    });
-
+    // Close on Escape
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modalOverlay.style.display === 'flex') closeModal();
+      if (e.key === 'Escape' && overlay.classList.contains('active')) {
+        closeMenu();
+      }
     });
   })();
 
-  // Count-up animation for Coding Stats numbers
-  (function setupCodingStatsCountUp() {
-    const nums = Array.from(document.querySelectorAll('.coding-stat-number'));
-    if (!nums.length) return;
+  // ==========================================
+  // 5. PROJECT CAROUSEL
+  // ==========================================
+  (function initCarousels() {
+    const carousels = document.querySelectorAll('.project-carousel');
 
-    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    carousels.forEach((carousel) => {
+      const slides = carousel.querySelector('.carousel-slides');
+      const slideCount = slides ? slides.children.length : 0;
+      if (slideCount <= 1) return;
 
-    // Helper to animate integer value
-    function animateCount(el, target, suffix = '', duration = 1200) {
-      if (prefersReduced || duration <= 0) {
-        el.textContent = `${Math.round(target)}${suffix}`;
-        return;
-      }
-      const start = 0;
-      const startTime = performance.now();
+      let currentIndex = 0;
+      let interval = null;
+      const AUTOPLAY_MS = 3500;
 
-      const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
-
-      function tick(now) {
-        const elapsed = now - startTime;
-        const progress = Math.min(1, elapsed / duration);
-        const eased = easeOutCubic(progress);
-        const value = Math.round(start + (target - start) * eased);
-        el.textContent = `${value}${suffix}`;
-        if (progress < 1) requestAnimationFrame(tick);
+      function showSlide(idx) {
+        currentIndex = idx;
+        slides.style.transform = `translateX(-${idx * 100}%)`;
       }
 
-      requestAnimationFrame(tick);
-    }
+      function next() {
+        showSlide((currentIndex + 1) % slideCount);
+      }
 
-    // Prepare targets from text (e.g., "385+" => 385 with suffix "+")
-    nums.forEach((el) => {
-      const raw = (el.textContent || '').trim();
-      const match = raw.match(/(\d+)(.*)?/);
-      const target = match ? parseInt(match[1], 10) : 0;
-      const suffix = match && match[2] ? match[2] : '';
-      el.dataset.target = String(target);
-      el.dataset.suffix = suffix;
-      // initialize to 0 with same suffix for a nicer entrance
-      el.textContent = `0${suffix}`;
-      el.dataset.counted = 'false';
+      function start() {
+        if (interval) return;
+        interval = setInterval(next, AUTOPLAY_MS);
+      }
+
+      function stop() {
+        clearInterval(interval);
+        interval = null;
+      }
+
+      if (!reducedMotion) start();
+
+      carousel.addEventListener('mouseenter', stop);
+      carousel.addEventListener('mouseleave', () => {
+        if (!reducedMotion) start();
+      });
+      carousel.addEventListener('focusin', stop);
+      carousel.addEventListener('focusout', () => {
+        if (!reducedMotion) start();
+      });
+    });
+  })();
+
+  // ==========================================
+  // 6. CERTIFICATE MODAL
+  // ==========================================
+  (function initModal() {
+    const modal = document.getElementById('certModal');
+    if (!modal) return;
+
+    const modalImg = modal.querySelector('.modal-image');
+    const closeBtn = modal.querySelector('.close-button');
+
+    // Internship certificate trigger
+    const certTriggers = document.querySelectorAll('.certificate-trigger');
+    certTriggers.forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        const img = trigger.querySelector('img');
+        if (img && modalImg) {
+          modalImg.src = img.src;
+          modalImg.alt = img.alt || 'Certificate';
+          modal.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        }
+      });
     });
 
-    function run(el) {
-      if (!el || el.dataset.counted === 'true') return;
-      el.dataset.counted = 'true';
-      const target = parseInt(el.dataset.target || '0', 10);
-      const suffix = el.dataset.suffix || '';
-      animateCount(el, target, suffix, 1100);
+    // Certification card buttons
+    const viewBtns = document.querySelectorAll('.view-cert-btn');
+    viewBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const href = btn.dataset.href;
+        const src = btn.dataset.src;
+
+        if (href) {
+          window.open(href, '_blank');
+          return;
+        }
+
+        if (src && modalImg) {
+          modalImg.src = src;
+          modalImg.alt = 'Certificate';
+          modal.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        }
+      });
+    });
+
+    function closeModal() {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
     }
 
-    // Trigger when the coding stats card is in view
-    const container = document.querySelector('.coding-stats') || document.getElementById('about');
-    if ('IntersectionObserver' in window && container) {
-      const io = new IntersectionObserver((entries, obs) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            nums.forEach(run);
-            obs.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.25 });
-      io.observe(container);
-    } else {
-      // Fallback: run immediately
-      nums.forEach(run);
+    closeBtn?.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        closeModal();
+      }
+    });
+  })();
+
+  // ==========================================
+  // 7. BACK-TO-TOP BUTTON
+  // ==========================================
+  (function initBackToTop() {
+    const btn = document.createElement('button');
+    btn.className = 'back-to-top';
+    btn.setAttribute('aria-label', 'Back to top');
+    btn.innerHTML = `
+      <svg viewBox="0 0 36 36">
+        <circle class="progress-ring__bg" cx="18" cy="18" r="14"
+          fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="2.5"/>
+        <circle class="progress-ring__circle" cx="18" cy="18" r="14"
+          fill="none" stroke-width="2.5" stroke-linecap="round"
+          transform="rotate(-90 18 18)"/>
+        <path class="arrow-up" d="M18 24V13M13 17l5-5 5 5"
+          fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    `;
+    document.body.appendChild(btn);
+
+    const circle = btn.querySelector('.progress-ring__circle');
+    const radius = 14;
+    const circumference = 2 * Math.PI * radius;
+
+    if (circle) {
+      circle.style.strokeDasharray = `${circumference}`;
+      circle.style.strokeDashoffset = `${circumference}`;
     }
+
+    function update() {
+      const scrollTop = window.scrollY;
+      const docHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? scrollTop / docHeight : 0;
+
+      if (scrollTop > 300) {
+        btn.classList.add('show');
+      } else {
+        btn.classList.remove('show');
+      }
+
+      if (circle) {
+        const offset = circumference - progress * circumference;
+        circle.style.strokeDashoffset = `${offset}`;
+      }
+    }
+
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: reducedMotion ? 'auto' : 'smooth',
+      });
+    });
+  })();
+
+  // ==========================================
+  // 8. GLASS CARD MOUSE GLOW EFFECT
+  // ==========================================
+  (function initCardGlow() {
+    if (reducedMotion) return;
+
+    document.querySelectorAll('.glass-card').forEach((card) => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        card.style.setProperty('--mouse-x', `${x}%`);
+        card.style.setProperty('--mouse-y', `${y}%`);
+      });
+    });
+  })();
+
+
+// ==========================================
+// 9. GITHUB CONTRIBUTION HEATMAP (LIVE DATA)
+// ==========================================
+(function initHeatmap() {
+    const grid = document.getElementById('heatmapGrid');
+    if (!grid) return;
+
+    const GITHUB_USERNAME = 'karthik132007';
+    const API_URL = `https://github-contributions-api.jogruber.de/v4/${GITHUB_USERNAME}?y=last`;
+
+    // Animate stat counter with ease-out cubic
+    function animateCounter(el, target) {
+        if (!el || target === 0) { if (el) el.textContent = target; return; }
+        const duration = 1500;
+        const start = performance.now();
+        function step(now) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            el.textContent = Math.floor(eased * target);
+            if (progress < 1) requestAnimationFrame(step);
+            else el.textContent = target;
+        }
+        requestAnimationFrame(step);
+    }
+
+    // Render heatmap grid from contribution data array
+    function renderGrid(contributions) {
+        const WEEKS = 52;
+        const DAYS = 7;
+        const TARGET = WEEKS * DAYS;
+
+        // Take the most recent TARGET days
+        const data = contributions.slice(-TARGET);
+
+        // Pad if fewer entries
+        while (data.length < TARGET) {
+            data.unshift({ date: '', count: 0, level: 0 });
+        }
+
+        const fragment = document.createDocumentFragment();
+        data.forEach((item) => {
+            const cell = document.createElement('div');
+            cell.className = 'heatmap-cell';
+            cell.setAttribute('data-level', Math.min(item.level, 4));
+
+            let tooltip;
+            if (item.date) {
+                const d = new Date(item.date + 'T00:00:00');
+                const dateStr = d.toLocaleDateString('en-US', {
+                    month: 'short', day: 'numeric', year: 'numeric'
+                });
+                tooltip = item.count > 0
+                    ? `${item.count} contribution${item.count > 1 ? 's' : ''} on ${dateStr}`
+                    : `No contributions on ${dateStr}`;
+            } else {
+                tooltip = 'No data';
+            }
+            cell.setAttribute('data-tooltip', tooltip);
+            fragment.appendChild(cell);
+        });
+        grid.appendChild(fragment);
+
+        // Calculate stats
+        const totalContributions = data.reduce((sum, d) => sum + d.count, 0);
+
+        let currentStreak = 0;
+        for (let i = data.length - 1; i >= 0; i--) {
+            if (data[i].count > 0) currentStreak++;
+            else break;
+        }
+
+        let longestStreak = 0;
+        let tempStreak = 0;
+        for (const d of data) {
+            if (d.count > 0) {
+                tempStreak++;
+                longestStreak = Math.max(longestStreak, tempStreak);
+            } else {
+                tempStreak = 0;
+            }
+        }
+
+        return { totalContributions, currentStreak, longestStreak };
+    }
+
+    // Trigger stat animation on scroll into view
+    function setupScrollTrigger(stats) {
+        const section = document.getElementById('github-activity');
+        if (!section) return;
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    animateCounter(document.getElementById('heatmapCommits'), stats.totalContributions);
+                    animateCounter(document.getElementById('heatmapCurrentStreak'), stats.currentStreak);
+                    animateCounter(document.getElementById('heatmapLongestStreak'), stats.longestStreak);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+        observer.observe(section);
+    }
+
+    // Fetch live data, fallback to generated data on failure
+    fetch(API_URL)
+        .then((res) => { if (!res.ok) throw new Error(res.status); return res.json(); })
+        .then((json) => {
+            const contributions = json.contributions || [];
+            const stats = renderGrid(contributions);
+            setupScrollTrigger(stats);
+        })
+        .catch(() => {
+            console.warn('GitHub contributions API unavailable, using simulated data.');
+            const data = [];
+            const today = new Date();
+            for (let i = 363; i >= 0; i--) {
+                const d = new Date(today);
+                d.setDate(d.getDate() - i);
+                const rand = Math.random();
+                let level = 0, count = 0;
+                if (rand > 0.6) { level = 1; count = Math.ceil(Math.random() * 3); }
+                if (rand > 0.75) { level = 2; count = Math.ceil(Math.random() * 5) + 2; }
+                if (rand > 0.88) { level = 3; count = Math.ceil(Math.random() * 7) + 4; }
+                if (rand > 0.95) { level = 4; count = Math.ceil(Math.random() * 10) + 8; }
+                data.push({ date: d.toISOString().split('T')[0], count, level });
+            }
+            const stats = renderGrid(data);
+            setupScrollTrigger(stats);
+        });
+})();
+
+  // ==========================================
+  // 10. PARTICLE CANVAS BACKGROUND
+  // ==========================================
+  (function initParticles() {
+    if (reducedMotion) return;
+
+    const canvas = document.getElementById('particleCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let width, height;
+    let particles = [];
+    let mouseX = -9999;
+    let mouseY = -9999;
+    let animId;
+
+    const PARTICLE_COUNT = 70;
+    const MAX_CONNECT_DIST = 140;
+    const MOUSE_RADIUS = 180;
+
+    const colors = [
+      'rgba(0, 212, 170, ',   // cyan
+      'rgba(124, 58, 237, ',  // purple
+      'rgba(56, 189, 248, ',  // blue
+      'rgba(244, 114, 182, ', // pink
+    ];
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+
+    function createParticle() {
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      return {
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        r: Math.random() * 1.8 + 0.6,
+        color,
+        alpha: Math.random() * 0.5 + 0.15,
+      };
+    }
+
+    function init() {
+      resize();
+      particles = [];
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        particles.push(createParticle());
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, width, height);
+
+      // Draw connections
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < MAX_CONNECT_DIST) {
+            const opacity = (1 - dist / MAX_CONNECT_DIST) * 0.12;
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(124, 58, 237, ${opacity})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Draw particles
+      for (const p of particles) {
+        // Mouse repulsion
+        const dx = p.x - mouseX;
+        const dy = p.y - mouseY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < MOUSE_RADIUS && dist > 0) {
+          const force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS;
+          p.vx += (dx / dist) * force * 0.15;
+          p.vy += (dy / dist) * force * 0.15;
+        }
+
+        // Dampen velocity
+        p.vx *= 0.99;
+        p.vy *= 0.99;
+
+        // Move
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Wrap edges
+        if (p.x < -10) p.x = width + 10;
+        if (p.x > width + 10) p.x = -10;
+        if (p.y < -10) p.y = height + 10;
+        if (p.y > height + 10) p.y = -10;
+
+        // Draw dot with glow
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color + p.alpha + ')';
+        ctx.fill();
+
+        // Subtle glow
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r * 3, 0, Math.PI * 2);
+        ctx.fillStyle = p.color + (p.alpha * 0.15) + ')';
+        ctx.fill();
+      }
+
+      animId = requestAnimationFrame(draw);
+    }
+
+    // Mouse tracking
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    window.addEventListener('mouseleave', () => {
+      mouseX = -9999;
+      mouseY = -9999;
+    });
+
+    window.addEventListener('resize', () => {
+      resize();
+    });
+
+    // Visibility API — pause when tab not visible
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        cancelAnimationFrame(animId);
+      } else {
+        draw();
+      }
+    });
+
+    init();
+    draw();
   })();
 });
