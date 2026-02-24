@@ -159,8 +159,11 @@ export default function GitHubHeatmap() {
                         </div>
                     </div>
                     <div className="heatmap-months">
-                        {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].map((m) => (
-                            <span key={m}>{m}</span>
+                        {Array.from({ length: 12 }, (_, i) => {
+                            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                            return months[(new Date().getMonth() + 1 + i) % 12];
+                        }).map((m, index) => (
+                            <span key={`${m}-${index}`}>{m}</span>
                         ))}
                     </div>
                     <div className="heatmap-grid" ref={gridRef}></div>
