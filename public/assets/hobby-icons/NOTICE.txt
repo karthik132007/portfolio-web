@@ -1,0 +1,5 @@
+Arch Linux: Devicon, bundled from @iconify-json/devicon 1.2.77 (MIT).
+https://github.com/devicons/devicon
+The full Devicon MIT notice is included in ../tech-icons/NOTICE.txt.
+Minecraft grass block, cooking, and reactions are locally authored SVG illustrations.
+Brand names and marks belong to their respective owners.

@@ -1,0 +1,328 @@
+.minecraft-inventory {
+  position: relative;
+  min-height: calc(100svh + 420px);
+  padding-top: 48px;
+  padding-bottom: 80px;
+  background: #e8eadf;
+}
+
+.chest-sticky-scene {
+  position: sticky;
+  top: 30px;
+}
+.minecraft-inventory .inventory-heading {
+  margin: 28px 0 6px;
+}
+.minecraft-inventory .inventory-heading p {
+  margin-top: 14px;
+}
+.chest-scroll-note {
+  font-size: 8px;
+  color: #63704f;
+  white-space: nowrap;
+}
+.chest-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 237px;
+  gap: 40px;
+  align-items: center;
+}
+.double-chest {
+  position: relative;
+  width: 100%;
+  max-width: min(760px, calc(125.49svh - 288.63px));
+  aspect-ratio: 640 / 510;
+  margin: 0 auto;
+  isolation: isolate;
+}
+.chest-artwork {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.chest-open-target {
+  position: absolute;
+  inset: 29% 3% 7% 2%;
+  background: transparent;
+  z-index: 2;
+}
+.chest-open-target:focus-visible {
+  outline: 2px dashed #6c7b3b;
+  outline-offset: 8px;
+}
+.is-open .chest-open-target {
+  pointer-events: none;
+}
+.chest-contents {
+  position: absolute;
+  z-index: 3;
+  top: 37%;
+  left: 14%;
+  width: 78%;
+  padding: 9px 10px 12px;
+  background: #c6c6c6;
+  border: 3px solid #252722;
+  box-shadow:
+    inset 3px 3px #f6f6ed,
+    inset -3px -3px #777b70,
+    5px 7px 0 #24271c55;
+  opacity: var(--items-opacity);
+  transform: translateY(calc((1 - var(--chest-progress)) * 35px))
+    scale(calc(0.92 + var(--chest-progress) * 0.08));
+  transform-origin: 50% 100%;
+  pointer-events: none;
+}
+.is-open .chest-contents {
+  pointer-events: auto;
+}
+.chest-inventory-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 2px 1px 9px;
+  font: 11px var(--mono);
+  color: #3d4037;
+}
+.chest-inventory-label span:last-child {
+  font-size: 8px;
+  color: #686b61;
+  align-self: center;
+}
+.minecraft-inventory .chest-grid {
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  gap: 3px;
+  padding: 0;
+  min-height: 0;
+  max-height: none;
+  overflow: visible;
+}
+.minecraft-inventory .chest-slot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 0;
+  aspect-ratio: 1;
+  padding: 0;
+  gap: 0;
+  border: 0;
+  border-radius: 0;
+  background: #8b8b8b;
+  box-shadow:
+    inset 2px 2px #454840,
+    inset -2px -2px #f2f2e9;
+}
+.minecraft-inventory .chest-slot:hover {
+  background: #a6a99c;
+}
+.minecraft-inventory .chest-slot.selected {
+  background: #b0b5a2;
+  box-shadow:
+    inset 2px 2px #fffef0,
+    inset -2px -2px #fffef0;
+}
+.minecraft-inventory .chest-slot.enchanted {
+  background: #8f8796;
+}
+.minecraft-inventory .chest-slot.enchanted:hover {
+  background: #ada1b7;
+}
+.minecraft-inventory .chest-slot.enchanted.selected {
+  background: #b5a7c3;
+}
+.minecraft-inventory .chest-slot:focus-visible {
+  outline: 2px solid #f5ffb4;
+  outline-offset: 1px;
+  z-index: 5;
+}
+.minecraft-inventory .chest-slot .technology-icon {
+  width: 65%;
+  height: 65%;
+  color: unset;
+  filter: drop-shadow(2px 2px 0 #2b2d2866);
+  object-fit: contain;
+}
+.chest-item-name {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 200px;
+  width: max-content;
+  background: #21152a;
+  color: #f3e8ff;
+  border: 2px solid #725583;
+  box-shadow: 0 2px 0 #121013;
+  padding: 7px 9px;
+  font: 10px/1.4 var(--mono);
+  text-align: left;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 10;
+}
+.chest-slot:hover .chest-item-name,
+.chest-slot:focus-visible .chest-item-name {
+  opacity: 1;
+}
+.empty-slot {
+  opacity: 0.8;
+}
+.chest-ground-note {
+  position: absolute;
+  bottom: -13px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  color: #6e755f;
+  font-size: 6px;
+  letter-spacing: 0.12em;
+}
+.chest-layout > .item-inspector {
+  position: relative;
+  top: 0;
+  margin-top: 58px;
+}
+.minecraft-inventory .inspector-icon .technology-icon {
+  width: 53px;
+  height: 53px;
+  filter: drop-shadow(3px 3px 0 #40503555);
+}
+.fact-arch {
+  color: #398eaa;
+  background: #dfe9e7;
+}
+.fact-icon .hobby-icon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  filter: drop-shadow(1px 2px 0 #25272015);
+}
+
+@media (max-width: 760px) {
+  .fact-icon .hobby-icon {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media (min-width: 1500px) {
+  .minecraft-inventory {
+    padding-left: max(7.4%, calc((100% - 1280px) / 2));
+    padding-right: max(7.4%, calc((100% - 1280px) / 2));
+  }
+}
+@media (max-width: 1100px) {
+  .chest-layout {
+    grid-template-columns: minmax(0, 1fr) 210px;
+    gap: 24px;
+  }
+  .chest-inventory-label {
+    font-size: 9px;
+  }
+  .chest-contents {
+    padding: 7px 8px 9px;
+  }
+  .minecraft-inventory .chest-grid {
+    gap: 2px;
+  }
+}
+@media (max-width: 760px) {
+  .minecraft-inventory {
+    min-height: calc(100svh + 330px);
+    padding-top: 30px;
+    padding-bottom: 55px;
+  }
+  .chest-sticky-scene {
+    top: 20px;
+  }
+  .minecraft-inventory .inventory-heading {
+    margin: 23px 0 0;
+    align-items: end;
+  }
+  .minecraft-inventory .inventory-heading h2 {
+    font-size: 37px;
+    max-width: 100%;
+  }
+  .minecraft-inventory .inventory-heading p {
+    font-size: 10px;
+    margin-top: 12px;
+  }
+  .chest-scroll-note {
+    display: none;
+  }
+  .chest-layout {
+    grid-template-columns: 1fr;
+    gap: 31px;
+  }
+  .double-chest {
+    max-width: 550px;
+  }
+  .chest-contents {
+    left: 3%;
+    width: 94%;
+    top: 25%;
+    padding: 5px 6px 7px;
+    border-width: 2px;
+    box-shadow:
+      inset 2px 2px #f6f6ed,
+      inset -2px -2px #777b70,
+      3px 4px 0 #24271c55;
+  }
+  .chest-inventory-label {
+    font-size: 8px;
+    margin: 1px 1px 6px;
+  }
+  .chest-inventory-label span:last-child {
+    font-size: 6px;
+  }
+  .minecraft-inventory .chest-grid {
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+    gap: 2px;
+  }
+  .minecraft-inventory .chest-slot {
+    min-height: 0;
+    padding: 0;
+  }
+  .minecraft-inventory .chest-slot .technology-icon {
+    width: 72%;
+    height: 72%;
+    filter: drop-shadow(1px 1px 0 #2b2d2866);
+  }
+  .chest-layout > .item-inspector {
+    order: 0;
+    margin-top: 0;
+    min-height: 185px;
+  }
+  .minecraft-inventory .inspector-icon .technology-icon {
+    width: 43px;
+    height: 43px;
+  }
+  .chest-ground-note {
+    bottom: -9px;
+    font-size: 5px;
+  }
+  .chest-item-name {
+    font-size: 8px;
+    max-width: 160px;
+  }
+}
+@media (max-height: 680px) and (min-width: 761px) {
+  .chest-sticky-scene {
+    top: 14px;
+  }
+  .minecraft-inventory .inventory-heading {
+    margin-top: 18px;
+  }
+  .minecraft-inventory .inventory-heading h2 {
+    font-size: 42px;
+  }
+  .double-chest {
+    max-width: 540px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chest-contents {
+    transform: none;
+  }
+}

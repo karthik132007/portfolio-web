@@ -1,0 +1,8 @@
+/* Let the sculpture button receive clicks through the overlapping hero row. */
+.hero-bottom {
+  pointer-events: none;
+}
+
+.hero-bottom > * {
+  pointer-events: auto;
+}

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none">
+<defs><linearGradient id="pan" x1="9" y1="22" x2="31" y2="35" gradientUnits="userSpaceOnUse"><stop stop-color="#737c81"/><stop offset="1" stop-color="#303f46"/></linearGradient><linearGradient id="food" x1="9" y1="19" x2="28" y2="26" gradientUnits="userSpaceOnUse"><stop stop-color="#c5dd77"/><stop offset="1" stop-color="#769f42"/></linearGradient></defs>
+<path d="m26 22 9-8" stroke="#3d4c51" stroke-width="5" stroke-linecap="round"/><path d="m29 19 6-5" stroke="#7f8e91" stroke-width="2" stroke-linecap="round"/>
+<path d="M6 23c0 8 5 12 12 12s12-4 12-12" fill="url(#pan)"/><ellipse cx="18" cy="23" rx="12" ry="7" fill="#a8b1a5"/><ellipse cx="18" cy="23" rx="10" ry="5" fill="url(#food)"/>
+<path d="m12 21 3 4m6-5 4 2" stroke="#ed9c45" stroke-width="3" stroke-linecap="round"/><path d="m18 22-2 4m8-2-2 2m-12-3 2 2" stroke="#477d45" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M12 14c-4-4 4-5 0-9M20 12c-4-4 4-5 0-9M26 14c-2-2 2-4 1-6" stroke="#929b87" stroke-width="1.7" stroke-linecap="round"/>
+<path d="M9 28c2 3 5 4 9 4" stroke="#c5cecc" stroke-width="1.4" stroke-linecap="round"/>
+</svg>

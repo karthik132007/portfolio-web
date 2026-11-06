@@ -1,0 +1,84 @@
+/* Individual transform properties preserve the artwork's original rotations. */
+.motion-reveal {
+  opacity: 0;
+  translate: 0 36px;
+  scale: 0.985;
+  transition:
+    opacity 850ms cubic-bezier(0.2, 0.65, 0.25, 1) var(--reveal-delay, 0ms),
+    translate 1050ms cubic-bezier(0.2, 0.65, 0.25, 1) var(--reveal-delay, 0ms),
+    scale 1050ms cubic-bezier(0.2, 0.65, 0.25, 1) var(--reveal-delay, 0ms);
+}
+.motion-reveal.motion-from-left {
+  translate: -40px 14px;
+}
+.motion-reveal.motion-from-right {
+  translate: 40px 14px;
+}
+.motion-reveal.is-revealed {
+  opacity: 1;
+  translate: 0 0;
+  scale: 1;
+}
+.scroll-drift {
+  translate: 0 var(--drift-y, 0px);
+  rotate: var(--drift-rotation, 0deg);
+}
+.hero .title-asterisk {
+  animation: curiosity-turn 18s linear infinite;
+  transform-origin: 50% -0.33em;
+}
+@keyframes curiosity-turn {
+  to {
+    rotate: 360deg;
+  }
+}
+.chest-slot .technology-icon {
+  transition:
+    translate 180ms ease,
+    scale 180ms ease;
+}
+.chest-slot:hover .technology-icon,
+.chest-slot:focus-visible .technology-icon {
+  translate: 0 -3px;
+  scale: 1.12;
+}
+@media (max-width: 760px) {
+  .motion-reveal {
+    translate: 0 24px;
+  }
+  .motion-reveal.motion-from-left {
+    translate: -18px 12px;
+  }
+  .motion-reveal.motion-from-right {
+    translate: 18px 12px;
+  }
+  .motion-reveal.is-revealed {
+    translate: 0 0;
+  }
+  main {
+    overflow-x: clip;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .motion-reveal {
+    opacity: 1;
+    translate: none;
+    scale: none;
+    transition: none;
+  }
+  .scroll-drift {
+    translate: none;
+    rotate: none;
+  }
+  .hero .title-asterisk {
+    animation: none;
+  }
+  .chest-slot .technology-icon {
+    transition: none;
+  }
+  .chest-slot:hover .technology-icon,
+  .chest-slot:focus-visible .technology-icon {
+    translate: none;
+    scale: none;
+  }
+}
