@@ -3,7 +3,8 @@
   min-height: calc(100svh + 420px);
   padding-top: 48px;
   padding-bottom: 80px;
-  background: #e8eadf;
+  background: var(--surface);
+  border-top: 1px solid var(--line);
 }
 
 .chest-sticky-scene {
@@ -15,11 +16,19 @@
 }
 .minecraft-inventory .inventory-heading p {
   margin-top: 14px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.minecraft-inventory .inventory-heading h2 em {
+  color: var(--olive);
 }
 .chest-scroll-note {
   font-size: 8px;
-  color: #63704f;
-  white-space: nowrap;
+  color: var(--olive);
+  text-align: right;
+  max-width: 230px;
+  line-height: 1.8;
 }
 .chest-layout {
   display: grid;
@@ -48,7 +57,7 @@
   z-index: 2;
 }
 .chest-open-target:focus-visible {
-  outline: 2px dashed #6c7b3b;
+  outline: 2px dashed var(--focus);
   outline-offset: 8px;
 }
 .is-open .chest-open-target {
@@ -183,6 +192,14 @@
   top: 0;
   margin-top: 58px;
 }
+.chest-layout :is(.inspector-top, .item-category, .inspector-bottom .mono) {
+  font-size: 9px;
+}
+.chest-layout .item-inspector #item-description {
+  color: var(--on-forest);
+  font-size: 12px;
+  line-height: 1.65;
+}
 .minecraft-inventory .inspector-icon .technology-icon {
   width: 53px;
   height: 53px;
@@ -190,7 +207,6 @@
 }
 .fact-arch {
   color: #398eaa;
-  background: #dfe9e7;
 }
 .fact-icon .hobby-icon {
   width: 32px;
@@ -206,12 +222,6 @@
   }
 }
 
-@media (min-width: 1500px) {
-  .minecraft-inventory {
-    padding-left: max(7.4%, calc((100% - 1280px) / 2));
-    padding-right: max(7.4%, calc((100% - 1280px) / 2));
-  }
-}
 @media (max-width: 1100px) {
   .chest-layout {
     grid-template-columns: minmax(0, 1fr) 210px;
@@ -237,19 +247,22 @@
     top: 20px;
   }
   .minecraft-inventory .inventory-heading {
+    display: block;
     margin: 23px 0 0;
-    align-items: end;
   }
   .minecraft-inventory .inventory-heading h2 {
     font-size: 37px;
     max-width: 100%;
   }
   .minecraft-inventory .inventory-heading p {
-    font-size: 10px;
+    font-size: 13px;
     margin-top: 12px;
   }
   .chest-scroll-note {
-    display: none;
+    display: block;
+    max-width: none;
+    margin-top: 8px;
+    text-align: left;
   }
   .chest-layout {
     grid-template-columns: 1fr;

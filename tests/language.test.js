@@ -19,12 +19,16 @@ function allStrings(value) {
 
 test("every visible copy key and dynamic description has both styled versions", () => {
   const sources = new Set();
-  const components = readdirSync(
-    new URL("../src/components/", import.meta.url),
-  ).filter((name) => name.endsWith(".jsx"));
-  for (const name of components) {
+  const copyFiles = [
+    "../src/App.jsx",
+    "../src/i18n/LanguageContext.jsx",
+    ...readdirSync(new URL("../src/components/", import.meta.url))
+      .filter((name) => name.endsWith(".jsx"))
+      .map((name) => `../src/components/${name}`),
+  ];
+  for (const file of copyFiles) {
     const source = readFileSync(
-      new URL(`../src/components/${name}`, import.meta.url),
+      new URL(file, import.meta.url),
       "utf8",
     );
     for (const match of source.matchAll(/\bt\(\s*("(?:[^"\\]|\\.)*")/g))
@@ -35,8 +39,6 @@ test("every visible copy key and dynamic description has both styled versions", 
     ...items.map((item) => item.description),
     ...Object.values(groups),
     ...allStrings(projects),
-    "Skip to content",
-    "Copied. Your move ↗",
   ])
     sources.add(source.trim());
   const missing = [...sources].filter(

@@ -1,22 +1,41 @@
-/* A direct, three-option entrance. */
 .language-gate {
   min-height: 100svh;
   display: grid;
   place-items: center;
   padding: 36px 24px;
-  background: var(--paper);
+  background:
+    radial-gradient(ellipse at 50% 40%, var(--surface), transparent 64%),
+    var(--wash);
 }
 .language-picker {
-  width: min(100%, 360px);
+  width: min(100%, 470px);
+  padding: clamp(1.35rem, 5vw, 2.75rem);
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  background: var(--paper);
+  box-shadow: 6px 6px 0 var(--sage);
 }
 .picker-name {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
   font-size: 12px;
+  font-weight: 700;
   color: var(--muted);
-  margin-bottom: 18px;
+  margin-bottom: 24px;
+}
+.picker-mark {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  background: var(--acid);
+  border-radius: 50%;
+  color: var(--ink);
+  font-size: 17px;
 }
 .language-picker h1 {
-  font-size: 30px;
+  font-size: clamp(1.65rem, 5vw, 2.45rem);
   font-weight: 500;
   line-height: 1.2;
   letter-spacing: -0.045em;
@@ -27,35 +46,39 @@
   flex-direction: column;
 }
 .voice-option {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
-  gap: 20px;
+  gap: 0.85rem;
   width: 100%;
   text-align: left;
-  padding: 19px 2px;
+  padding: 15px 8px;
   background: transparent;
   border: 0;
   border-bottom: 1px solid var(--line);
   font-size: 15px;
+  font-weight: 600;
+  transition: background 180ms ease;
 }
 .voice-option:first-child {
   border-top: 1px solid var(--line);
 }
-.voice-option:hover {
-  color: #617627;
+.voice-option:is(:hover, :focus-visible) {
+  background: var(--sage);
 }
 .voice-option:focus-visible {
-  outline: 2px solid #738b00;
-  outline-offset: 5px;
+  outline-offset: -3px;
+}
+.voice-option-number {
+  color: var(--olive);
 }
 .voice-option-arrow {
-  color: #7a8269;
+  color: var(--olive);
   font-size: 19px;
 }
 .picker-note {
-  font-size: 11px;
-  line-height: 1.8;
+  font-size: 12px;
+  line-height: 1.65;
   color: var(--muted);
   margin-top: 24px;
 }
@@ -80,29 +103,26 @@
   border-left: 1px solid var(--line);
 }
 .language-switcher > .mono {
-  font-size: 7px;
+  font-size: 8px;
   color: var(--muted);
 }
 .language-switcher select {
   max-width: 175px;
-  border: 0;
-  background: transparent;
+  min-height: 32px;
+  border: 1px solid var(--line);
+  background: var(--surface);
   color: var(--ink);
-  font: 10px var(--sans);
-  padding: 3px 12px 3px 0;
+  font: 11px var(--sans);
+  padding: 6px;
   cursor: pointer;
-  border-radius: 0;
+  border-radius: 3px;
 }
 .language-switcher select:focus-visible {
-  outline: 2px solid #738b00;
-  outline-offset: 5px;
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
 }
 #main:focus {
   outline: none;
-}
-.side-quests {
-  background: var(--paper);
-  border-top: 1px solid var(--line);
 }
 .side-quests .off-duty {
   margin: 0;
@@ -117,6 +137,7 @@
   margin-top: 19px;
 }
 .side-quests .off-duty-heading h2 em {
+  color: var(--olive);
   font-family: var(--serif);
   font-size: 44px;
   font-weight: 400;
@@ -126,17 +147,8 @@
 .header nav a {
   white-space: nowrap;
 }
-.hero h1 {
-  font-size: clamp(84px, 9.4vw, 156px);
-}
 .inventory-heading {
   min-width: 0;
-}
-.chest-scroll-note {
-  white-space: normal;
-  text-align: right;
-  max-width: 230px;
-  line-height: 1.8;
 }
 .chest-item-name {
   white-space: normal;
@@ -170,7 +182,19 @@
   .menu-toggle {
     display: flex;
     align-items: center;
-    gap: 13px;
+    gap: 8px;
+    min-height: 44px;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 0 9px;
+    background: var(--surface);
+  }
+  .menu-toggle span {
+    margin-left: 0;
+    color: var(--olive);
+  }
+  .menu-toggle[aria-expanded="true"] {
+    background: var(--sage);
   }
 }
 @media (max-width: 760px) {
@@ -181,9 +205,6 @@
     border-left: 0;
     padding-left: 0;
     gap: 2px;
-  }
-  .language-switcher > .mono {
-    font-size: 6px;
   }
   .language-switcher select {
     max-width: 125px;
@@ -201,9 +222,6 @@
   }
   .side-quests .off-duty-heading h2 em {
     font-size: 36px;
-  }
-  .hero h1 {
-    font-size: clamp(56px, 15vw, 106px);
   }
 }
 @media (max-width: 370px) {

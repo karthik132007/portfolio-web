@@ -1,4 +1,6 @@
 import { useLanguage } from "../i18n/LanguageContext.jsx";
+import "./quest-log.css";
+
 export default function SideQuests() {
   const { t } = useLanguage();
   return (
@@ -9,10 +11,10 @@ export default function SideQuests() {
     >
       <div className="off-duty" aria-labelledby="off-duty-title">
         {"\n"}
+        <div className="section-kicker mono">
+          <span>{t("SIDE QUESTS / NO TERMINAL REQUIRED")}</span>
+        </div>
         <div className="off-duty-heading">
-          <span className="mono">
-            {t("SIDE QUESTS / NO TERMINAL REQUIRED")}
-          </span>
           <h2 id="off-duty-title">
             {t("A little less résumé.")}
             <br />
@@ -124,52 +126,55 @@ export default function SideQuests() {
               </div>
             </article>
           </div>
-          <aside className="future-note" aria-labelledby="future-title">
-            <span className="mono">{t("QUEST LOG / WHAT COMES NEXT")}</span>
-            <svg className="quest-star" viewBox="0 0 24 24" aria-hidden="true">
-              <use href="#pixel-star" />
-            </svg>
-            <h3 id="future-title">
-              {t("From building AI")}
-              <br />
-              {t("to ")}
-              <em>{t("researching it.")}</em>
-            </h3>
-            <p>
-              {t(
-                "I want to become an AI researcher. Here’s the path I’m aiming for.",
-              )}
-            </p>
-            <ol className="quest-path">
-              <li className="quest-current">
-                <span className="quest-node" aria-hidden="true" />
-                <div>
-                  <span className="mono">{t("IN PROGRESS / 2024–2028")}</span>
-                  <h4>{t("B.Tech in AI & ML")}</h4>
-                  <p>{t("Aditya University")}</p>
-                </div>
-              </li>
-              <li>
-                <span className="quest-node" aria-hidden="true" />
-                <div>
-                  <span className="mono">{t("NEXT CHAPTER / THE GOAL")}</span>
-                  <h4>{t("Master’s in AI")}</h4>
-                  <p>{t("Germany or Japan")}</p>
-                </div>
-              </li>
-              <li>
-                <span className="quest-node" aria-hidden="true" />
-                <div>
-                  <span className="mono">{t("THE LONG GAME / IF FUNDED")}</span>
-                  <h4>{t("A PhD. Deeper questions.")}</h4>
-                  <p>{t("A funded research opportunity, if possible.")}</p>
-                </div>
-              </li>
-            </ol>
-            <p className="future-footnote">
-              {t("A direction I’m working toward.")}
-              <br />
-              {t("Still plenty to discover on the way.")}
+          <aside className="quest-log" aria-labelledby="future-title">
+            <header className="quest-log-header">
+              <img
+                className="quest-log-landscape"
+                src="assets/research-roadmap.svg"
+                width="620"
+                height="324"
+                alt=""
+              />
+              <p className="quest-log-kicker mono">{t("ROADMAP / FUTURE PLANS")}</p>
+              <h3 id="future-title">
+                {t("The Path to ")}
+                <em>{t("AI Research")}</em>
+              </h3>
+              <p className="quest-log-intro">
+                {t("A long-term plan to build strong foundations, explore deeper questions, and contribute to meaningful research in AI.")}
+              </p>
+            </header>
+            <div className="quest-log-route">
+              <svg className="quest-log-rail" viewBox="0 0 40 300" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M39 0C21 12 25 35 25 50c0 28-25 47-25 67 0 15 14 24 25 33 11 22-21 46-21 69 0 11 7 21 21 31" />
+              </svg>
+              <ol className="quest-log-milestones" role="list">
+                <li>
+                  <div className="quest-log-card">
+                    <span className="mono">{t("PHASE 01 / 2024–2028")}</span>
+                    <h4>{t("B.Tech in AI & ML")}</h4>
+                    <p>{t("Aditya University")}</p>
+                  </div>
+                </li>
+                <li>
+                  <div className="quest-log-card">
+                    <span className="mono">{t("PHASE 02 / NEXT")}</span>
+                    <h4>{t("Master’s in AI")}</h4>
+                    <p>{t("Germany or Japan")}</p>
+                  </div>
+                </li>
+                <li>
+                  <div className="quest-log-card">
+                    <span className="mono">{t("PHASE 03 / LONG TERM")}</span>
+                    <h4>{t("A PhD / Deeper Research")}</h4>
+                    <p>{t("A funded research opportunity, if possible.")}</p>
+                  </div>
+                </li>
+              </ol>
+            </div>
+            <p className="quest-log-note">
+              <span className="quest-log-divider" aria-hidden="true">✦</span>
+              {t("Build → Explore → Research")}
             </p>
           </aside>
         </div>

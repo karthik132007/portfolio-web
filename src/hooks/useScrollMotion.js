@@ -6,35 +6,24 @@ const revealTargets = [
   ".curiosity-object",
   ".hero-bottom",
   ".hero-foot",
-  ".section-kicker",
-  ".opening h2",
-  ".opening-copy > p",
-  ".section-title",
-  ".project-featured .project-art",
-  ".project-featured .project-info",
-  ".project-pair > article",
+  ".section-kicker:not(.work-kicker, .opening-kicker)",
+  ".section-title:not(.work-heading)",
   ".about-statement",
   ".about-details",
   ".off-duty-heading",
   ".fun-fact",
-  ".future-note",
+  ".quest-log",
   ".inventory-heading",
   ".chest-layout > .item-inspector",
   ".contact-pre",
   "#contact-title",
   ".contact-action",
-  "footer",
 ].join(",");
 
 const driftTargets = [
   [".hero h1", -30, 0],
   [".orb-frame", 42, 0],
-  [".big-asterisk", 0, 55],
-  [".agent-diagram", 22, 4],
-  [".trip-map", -24, 0],
-  [".answer-sheet", 12, -3],
   [".profile-note", -20, 3],
-  [".quest-star", 0, 70],
 ];
 
 export default function useScrollMotion(rootRef) {
@@ -70,7 +59,7 @@ export default function useScrollMotion(rootRef) {
         element.style.setProperty("--reveal-delay", `${(index % 3) * 85}ms`);
         if (
           element.matches(
-            ".about-details, .contact-action, .project-pair > article:last-child",
+            ".about-details, .contact-action",
           )
         ) {
           element.classList.add("motion-from-right");

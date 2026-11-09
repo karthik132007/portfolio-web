@@ -25,7 +25,7 @@
 }
 .hero .title-asterisk {
   animation: curiosity-turn 18s linear infinite;
-  transform-origin: 50% -0.33em;
+  transform-origin: center;
 }
 @keyframes curiosity-turn {
   to {

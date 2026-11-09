@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 324">
+  <defs>
+    <linearGradient id="summit" x1="12%" y1="87%" x2="76%" y2="17%">
+      <stop stop-color="#dcdccb"/>
+      <stop offset=".57" stop-color="#bdc1a4"/>
+      <stop offset="1" stop-color="#a7ad8b"/>
+    </linearGradient>
+    <linearGradient id="middle" x1="16%" y1="84%" x2="93%" y2="14%">
+      <stop stop-color="#cbd0b2"/>
+      <stop offset="1" stop-color="#8a976e"/>
+    </linearGradient>
+    <linearGradient id="near" x1="25%" y1="4%" x2="70%" y2="76%">
+      <stop stop-color="#a8b285"/>
+      <stop offset=".52" stop-color="#8e9a6c"/>
+      <stop offset="1" stop-color="#b6bfa0"/>
+    </linearGradient>
+    <linearGradient id="mist" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset=".7" stop-color="#fff"/>
+      <stop offset=".86" stop-color="#fff" stop-opacity=".78"/>
+      <stop offset=".98" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <mask id="fade" maskUnits="userSpaceOnUse" x="0" y="0" width="620" height="324">
+      <path d="M0 0h620v324H0z" fill="url(#mist)"/>
+    </mask>
+    <filter id="paper-grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".42" numOctaves="3" seed="12" stitchTiles="stitch"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 .44  0 0 0 0 .47  0 0 0 0 .32  .18 0 0 0 0"/>
+      <feComposite in2="SourceAlpha" operator="in"/>
+      <feBlend in2="SourceGraphic" mode="multiply"/>
+    </filter>
+  </defs>
+  <g fill="#f9f7ee">
+    <path opacity=".45" d="M296 79c9-13 27-14 42-10 8-19 24-26 42-23 6-19 22-29 38-27 14 2 26 12 30 24 12-7 27-3 34 8 14-4 28 2 34 15 12 0 23 5 27 13z"/>
+    <path opacity=".58" d="M418 139c7-13 19-16 32-16 4-15 21-28 39-25 7-27 33-44 59-42 26 1 48 16 57 38 5-2 10-3 15-2v47z"/>
+  </g>
+  <g mask="url(#fade)">
+    <g filter="url(#paper-grain)">
+      <path fill="#d7dac6" d="M0 259c34-16 47-17 70-11 27 8 48 20 82 23 74 9 153-31 212-38 45-6 94 15 133 14 45-1 84-25 123-26v103H0z"/>
+      <path fill="url(#summit)" d="M223 269c56-37 103-79 156-119 28-22 49-40 64-41 11 0 19 5 31 6 16-10 24-20 40-34l28-25c16 4 32 25 42 27 13 8 20 17 36 21v220H223z"/>
+      <path fill="#939e7e" opacity=".62" d="M542 56c15 4 31 24 42 27 14 9 24 18 36 21v47c-36-13-50-29-76-42-20-10-36-4-53 2 20-11 39-30 51-55z"/>
+      <path fill="#cdd0b5" d="M542 56c-18 26-18 36-42 52-23 16-47 26-74 47l-30 16c31-27 49-48 77-56 17-12 25-21 41-34z"/>
+      <path fill="#aab697" d="M259 272c56-29 90-60 123-83 20-16 42-32 62-41 30-12 63-9 88-21 31-14 58-10 88 6v191H259z"/>
+      <path fill="url(#middle)" d="M302 282c56-26 99-69 142-87 26-12 46-19 73-36 27-17 43-47 66-50 12 0 24 5 37 11v204H302z"/>
+      <path fill="#75835f" opacity=".49" d="M586 109c-12 16-17 29-34 43-17 15-48 29-68 44 34-8 69-16 102-15l34 4v-65c-11-6-24-11-34-11z"/>
+      <path fill="#b5bd9a" d="M228 283c64-25 94-51 147-82 20-12 39-35 58-41 27-8 49 9 76 14 35 7 68-10 111 5v145H228z"/>
+      <path fill="#829369" opacity=".53" d="M433 160c28-8 49 9 76 14 33 7 69-10 111 5v48c-44-23-71-17-115-21-28-3-48-18-72-46z"/>
+      <path fill="#f8f4e5" d="M341 281c14-19 43-36 74-51 36-17 89-28 122-42 23-10 13-18-15-23-22-4-48-6-53-12-11-11 36-15 55-23 7-3 8-6-1-10 11 3 12 7 4 11-17 8-61 12-53 19 6 5 31 6 53 10 35 5 50 16 22 31-25 13-85 27-118 44-28 15-51 31-62 47z"/>
+      <path fill="url(#near)" d="M0 277c49 4 96 8 141-3 35-9 60-25 88-39 30-16 49-25 70-25 31 0 62 18 101 32 38 13 66 18 111 14 37-4 78-19 109-30v98H0z"/>
+      <path fill="#74815d" opacity=".34" d="M299 210c31 0 62 18 101 32 25 9 53 16 85 16-46 8-87 1-127-12-36-12-48-25-59-36z"/>
+      <path fill="#e5e5d6" opacity=".43" d="M0 282c51 7 98 5 141-8 24-7 41-19 61-28 34-17 65-33 87-35-22 11-40 26-62 39-47 29-71 43-118 48L0 300z"/>
+    </g>
+  </g>
+  <path fill="#64764f" d="M540 57V28h1.8v2c8-2 12 5 20 3l-5 5 4 4c-8 2-12-5-18-3v17z"/>
+</svg>

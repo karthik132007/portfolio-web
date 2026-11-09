@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <radialGradient id="light" cx=".67" cy=".64" r=".78">
+      <stop stop-color="#1c4851"/>
+      <stop offset="1" stop-color="#101c2a"/>
+    </radialGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M0 32V0H32" fill="none" stroke="#a7d7e1" stroke-opacity=".13"/>
+      <circle r="1.4" fill="#a7d7e1" opacity=".23"/>
+    </pattern>
+    <pattern id="candidate" x="335" y="333" width="13" height="10" patternUnits="userSpaceOnUse">
+      <circle cx="6.5" cy="5" r="2.5" fill="#9dd1d2" opacity=".68"/>
+    </pattern>
+    <pattern id="shortlist" x="577" y="333" width="26" height="12.5" patternUnits="userSpaceOnUse">
+      <circle cx="13" cy="6.25" r="3.7" fill="#b2f5db"/>
+    </pattern>
+  </defs>
+  <path d="M0 0h800v500H0z" fill="url(#light)"/>
+  <path d="M0 0h800v500H0z" fill="url(#grid)"/>
+  <g fill="none" stroke="#a1dedf">
+    <path d="M34 61V34h27m678 0h27v27m0 378v27h-27m-678 0H34v-27" opacity=".6"/>
+    <g opacity=".19">
+      <circle cx="261" cy="305" r="62"/>
+      <circle cx="261" cy="305" r="93"/>
+      <path d="M261 182v244M42 305h713" stroke-dasharray="2 8"/>
+      <path d="M500 94c78-45 142-45 224 0m-196 8c65-34 124-32 168 0m-138 8c40-16 82-16 108 0"/>
+    </g>
+    <path d="M202 246h17q13 0 13 13v27q0 19 19 19h58m-107 61h17q13 0 13-13v-29q0-19 19-19m240 0h64" stroke-width="2.3"/>
+    <path d="m302 298 7 7-7 7m246-14 7 7-7 7" stroke-width="2.3"/>
+  </g>
+  <g fill="#18303b" stroke="#77a7ad" stroke-width="1.5">
+    <rect x="54" y="208" width="148" height="76" rx="5"/>
+    <rect x="54" y="328" width="148" height="76" rx="5"/>
+    <rect x="313" y="208" width="178" height="196" rx="5"/>
+    <rect x="559" y="208" width="178" height="196" rx="5" stroke="#b2f5db" stroke-width="2"/>
+  </g>
+  <path d="m261 295 10 10-10 10-10-10z" fill="#b2f5db"/>
+  <g fill="#b2f5db">
+    <circle cx="202" cy="246" r="4"/>
+    <circle cx="202" cy="366" r="4"/>
+    <circle cx="491" cy="305" r="4"/>
+    <circle cx="737" cy="63" r="2"/>
+    <circle cx="725" cy="63" r="2"/>
+    <circle cx="713" cy="63" r="2"/>
+  </g>
+  <g fill="#d4ecec" font-family="monospace" text-anchor="middle" font-size="21">
+    <text x="128" y="253">User tower</text>
+    <text x="128" y="373">Item tower</text>
+    <text x="261" y="345" fill="#b2f5db" font-size="18">64-D</text>
+    <text x="402" y="247">Retrieve</text>
+    <text x="648" y="247">Rerank</text>
+    <text x="402" y="435" fill="#a1dedf">Cosine</text>
+    <text x="648" y="435" fill="#a1dedf">Keras</text>
+  </g>
+  <g fill="#b2f5db" font-family="Georgia, serif" text-anchor="middle" font-size="64">
+    <text x="402" y="313">100</text>
+    <text x="648" y="313">20</text>
+  </g>
+  <rect x="337" y="333" width="130" height="50" fill="url(#candidate)"/>
+  <rect x="583" y="333" width="130" height="50" fill="url(#shortlist)"/>
+  <path d="M54 445h684" stroke="#a1dedf" opacity=".35"/>
+  <path d="M54 445h106m492 0h86" stroke="#a1dedf" opacity=".7" stroke-width="2"/>
+</svg>

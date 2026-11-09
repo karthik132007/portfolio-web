@@ -7,7 +7,7 @@ export default function Contact() {
     const email = "karthikeya2k7@zohomail.in";
     try {
       await navigator.clipboard.writeText(email);
-      setCopyStatus("Copied. Your move ↗");
+      setCopyStatus("copied");
     } catch {
       setCopyStatus(email);
     }
@@ -56,11 +56,20 @@ export default function Contact() {
             <span>{"⧉"}</span>
           </button>
           <span id="copy-status" className="copy-status" role="status">
-            {t(copyStatus)}
+            {copyStatus === "copied" ? t("Copied. Your move ↗") : copyStatus}
           </span>
         </div>
       </div>
-      <footer>
+    </section>
+  );
+}
+
+export function SiteFooter() {
+  const { t } = useLanguage();
+
+  return (
+    <footer className="site-footer">
+      <div className="footer-main">
         <a className="footer-name" href="#top">
           {t("Karthikeya Kumar ")}
           <span>{"✳"}</span>
@@ -85,11 +94,12 @@ export default function Contact() {
           </a>
         </div>
         <span className="footer-note mono">
-          {t("BUILT WITH A QUESTION MARK.")}
-          <br />
           {t("© 2026 KARTHIKEYA KUMAR")}
         </span>
-      </footer>
-    </section>
+      </div>
+      <p className="footer-credit">
+        {t("Like the site? Kudos to @codex. The coffee wants partial credit.")}
+      </p>
+    </footer>
   );
 }

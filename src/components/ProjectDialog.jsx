@@ -1,6 +1,51 @@
 import { useLanguage } from "../i18n/LanguageContext.jsx";
 import { Fragment, useEffect, useRef } from "react";
 import { projects } from "../data/projects.js";
+import CofounderSystem from "./CofounderSystem.jsx";
+function BuildFigure({ projectKey }) {
+  const { t, voice } = useLanguage();
+  if (projectKey === "sherlock") return null;
+
+  const assetRoot = `${import.meta.env.BASE_URL}assets/projects`;
+  if (projectKey === "cofounder") {
+    if (voice !== "standard") {
+      return (
+        <figure className="dialog-build-figure">
+          <CofounderSystem label={t("How AI Co-Founder routes a request to specialist agents")} />
+        </figure>
+      );
+    }
+    return <img className="dialog-build-figure" src={`${assetRoot}/cofounder.webp`} alt="" />;
+  }
+
+  if (projectKey === "tripsync") {
+    return (
+      <img
+        className="dialog-build-figure"
+        src={`${assetRoot}/tripsync.svg`}
+        alt={t("User and item towers produce 64-D embeddings. Cosine similarity retrieves 100 candidates, then a Keras reranker selects the top 20.")}
+      />
+    );
+  }
+
+  return (
+    <figure className="dialog-build-figure dialog-build-figure--omnimark">
+      <img
+        src={`${assetRoot}/omnimark.svg`}
+        alt={t("Submitted answer PDFs go through OCR or text extraction, NLP or LLM grading, and review of marks and feedback.")}
+      />
+      <figcaption>
+        <ol className="dialog-build-stages">
+          <li>{t("Upload")}</li>
+          <li>{t("Extract")}</li>
+          <li>{t("Grade")}</li>
+          <li>{t("Review")}</li>
+        </ol>
+      </figcaption>
+    </figure>
+  );
+}
+
 export default function ProjectDialog({ selection, onClose }) {
   const { t } = useLanguage();
   const dialogRef = useRef(null);
@@ -68,7 +113,8 @@ export default function ProjectDialog({ selection, onClose }) {
                 <h3>{t(title)}</h3>
                 <p>{t(text)}</p>
               </section>
-              {index === 2 && (
+              {index === 1 && <BuildFigure projectKey={selection.key} />}
+              {index === 2 && project.metrics && (
                 <div className="dialog-metrics">
                   {project.metrics.map(([value, label]) => (
                     <div key={label}>
@@ -84,12 +130,12 @@ export default function ProjectDialog({ selection, onClose }) {
         <div className="dialog-links" id="dialog-links">
           {project?.links.map(([title, url]) => (
             <a key={url} href={url} target="_blank" rel="noopener">
-              {t(title)}
+              {t(title)} <span aria-hidden="true">↗</span>
             </a>
           ))}
         </div>
         <p className="dialog-source mono">
-          {t("PROJECT DETAILS AND METRICS FROM MY RESUMES.")}
+          {t("PROJECT DETAILS FROM THE SOURCE REPOSITORIES AND MY RESUMES.")}
         </p>
       </div>
     </dialog>

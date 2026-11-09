@@ -4,6 +4,8 @@ export const projects = {
     category: "AGENTIC AI · BACKEND SYSTEMS",
     title: "AI Co-Founder",
     intro: "What if a big idea had a team behind it?",
+    summary: "A founder can delegate research, writing, and analysis from one conversation. The CEO agent brings in specialists and recalls relevant company context.",
+    stack: ["LangChain", "Hybrid RAG", "FastAPI + Kafka"],
     sections: [
       [
         "THE QUESTION",
@@ -11,7 +13,7 @@ export const projects = {
       ],
       [
         "THE BUILD",
-        "A LangChain CEO orchestrator coordinates 10 specialist agents. Effort-based routing selects between Flash, Mid, and Max modes. A FastAPI backend handles streaming and WebSocket traces so the work can be followed as it happens.",
+        "A LangChain CEO orchestrator delegates to specialist agents. The selected Flash, Mid, or Max mode controls model choice and tool budgets. FastAPI streams the answer while a buffered WebSocket timeline makes tool activity visible.",
       ],
       [
         "THE DEEPER LAYER",
@@ -19,17 +21,17 @@ export const projects = {
       ],
       [
         "THE TAKEAWAY",
-        "The intelligence is only one part of the experience. Context, observability, asynchronous work, and latency all need deliberate engineering.",
+        "Caching company data and agent instances in Redis cut the documented worst-case dashboard load from about 15 seconds to about 2 seconds.",
       ],
     ],
     metrics: [
-      ["10", "SPECIALIST AGENTS"],
+      ["27", "END-TO-END EVAL RUNS"],
       ["0.950", "RECALL@5"],
-      ["15s → 2s", "WORST-CASE LATENCY"],
+      ["~15s → ~2s", "WORST-CASE DASHBOARD LOAD"],
     ],
     links: [
-      ["Explore the live project ↗", "https://get-cofounder.tech/"],
-      ["Read the source ↗", "https://github.com/karthik132007/Co_Founder"],
+      ["Live site", "https://get-cofounder.tech/"],
+      ["Source code", "https://github.com/karthik132007/Co_Founder"],
     ],
   },
   tripsync: {
@@ -37,6 +39,8 @@ export const projects = {
     category: "RECOMMENDATION SYSTEMS · MACHINE LEARNING",
     title: "TripSync AI",
     intro: "Where would your curiosity take you?",
+    summary: "A travel recommender that turns preferences into a ranked destination shortlist, then builds a day-by-day itinerary for the place you pick.",
+    stack: ["TensorFlow", "FastAPI", "PostgreSQL"],
     sections: [
       [
         "THE QUESTION",
@@ -61,15 +65,18 @@ export const projects = {
       ["180+", "COUNTRIES IN PREPROCESSING"],
     ],
     links: [
-      ["Explore the live project ↗", "https://tripsyncai.onrender.com/"],
-      ["Read the source ↗", "https://github.com/karthik132007/TripSync_Ai"],
+      ["Live site", "https://tripsyncai.onrender.com/"],
+      ["Source code", "https://github.com/karthik132007/TripSync_Ai"],
     ],
   },
   omnimark: {
     number: "BUILD NOTES / 003",
     category: "EXPLAINABLE AI · ASYNC PROCESSING",
     title: "OmniMark AI",
+    award: { label: "Hackathon winner", event: "TechnicalHub Project Space 8.0", place: 1 },
     intro: "Can a grade explain the “why” behind it?",
+    summary: "An assessment platform that processes batches of answer sheets and gives teachers per-question feedback and a review process for disputed marks.",
+    stack: ["FastAPI + Celery", "Semantic AI", "MongoDB"],
     sections: [
       [
         "THE QUESTION",
@@ -77,7 +84,7 @@ export const projects = {
       ],
       [
         "THE BUILD",
-        "A hybrid evaluation system combines Sentence Transformers, OpenAI/Ollama LLMs, keyword matching, and heuristic scoring. FastAPI and Celery process PDF answer sheets asynchronously through OCR, grading, and plagiarism detection.",
+        "FastAPI queues batches of answer sheets for Celery. Scanned pages go through OCR. Teachers can select NLP scoring with semantic similarity and keyword overlap, or LLM grading with structured per-question feedback.",
       ],
       [
         "THE DEEPER LAYER",
@@ -85,16 +92,46 @@ export const projects = {
       ],
       [
         "THE TAKEAWAY",
-        "A useful evaluation needs more than a model output: it needs reasons, confidence, reliable processing, and tests that cover the pipeline. The platform won first prize at TechnicalHub Project Space 8.0.",
+        "Students can request a reevaluation. Teachers can review the request and update the result, and the platform records the change. The project won first prize at TechnicalHub Project Space 8.0.",
       ],
     ],
     metrics: [
       ["124", "UNIT + INTEGRATION TESTS"],
       ["92%", "CODE COVERAGE"],
-      ["5,000+", "PAIRWISE COMPARISONS"],
+      ["1ST", "TechnicalHub Project Space 8.0"],
     ],
     links: [
-      ["Read the source ↗", "https://github.com/karthik132007/omnimark.ai"],
+      ["Source code", "https://github.com/karthik132007/omnimark.ai"],
+    ],
+  },
+  sherlock: {
+    number: "BUILD NOTES / 004",
+    category: "KNOWLEDGE GRAPHS · DESKTOP SOFTWARE",
+    title: "Sherlock",
+    award: { label: "National finalist", event: "GDG DevJams · VIT Vellore" },
+    intro: "Can you trace every connection back to the evidence?",
+    summary: "An investigation workspace that turns case files into a searchable evidence graph, timeline, and list of contradictions.",
+    stack: ["Electron", "Python", "Neo4j"],
+    sections: [
+      [
+        "THE QUESTION",
+        "How can someone cross-check statements, timelines, and relationships across a folder of case evidence?",
+      ],
+      [
+        "THE BUILD",
+        "An Electron desktop app runs a Python pipeline that chunks evidence, resolves entity aliases, and extracts relationships and timeline events.",
+      ],
+      [
+        "THE DEEPER LAYER",
+        "Relationships carry the source file, chunk ID, and evidence excerpt. Each case keeps its own JSON outputs, with optional Neo4j support for graph queries.",
+      ],
+      [
+        "THE TAKEAWAY",
+        "The graph lets a reviewer follow a connection back to its source, compare conflicting accounts, and decide which leads deserve a closer look.",
+      ],
+    ],
+    links: [
+      ["Source code", "https://github.com/karthik132007/sherlock"],
     ],
   },
 };

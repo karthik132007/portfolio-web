@@ -29,16 +29,16 @@ export function LanguageProvider({ children }) {
     const descriptions = [
       [
         'meta[name="description"]',
-        "Karthikeya Kumar — AI & backend engineer. A field guide to the questions, experiments, and systems behind my work.",
+        t("Karthikeya Kumar — AI & backend engineer. A field guide to the questions, experiments, and systems behind my work."),
       ],
-      ['meta[property="og:title"]', "Karthikeya Kumar — Curious by default."],
+      ['meta[property="og:title"]', t("Karthikeya Kumar — Curious by default.")],
       [
         'meta[property="og:description"]',
-        "A question is a pretty good place to start. Explore my work in agentic AI, recommendation systems, and backend engineering.",
+        t("A question is a pretty good place to start. Explore my work in agentic AI, recommendation systems, and backend engineering."),
       ],
     ];
-    descriptions.forEach(([selector, source]) =>
-      document.querySelector(selector)?.setAttribute("content", t(source)),
+    descriptions.forEach(([selector, content]) =>
+      document.querySelector(selector)?.setAttribute("content", content),
     );
   }, [voice, t]);
 

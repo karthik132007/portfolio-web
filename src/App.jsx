@@ -11,7 +11,7 @@ import Work from "./components/Work.jsx";
 import About from "./components/About.jsx";
 import SideQuests from "./components/SideQuests.jsx";
 import Inventory from "./components/Inventory.jsx";
-import Contact from "./components/Contact.jsx";
+import Contact, { SiteFooter } from "./components/Contact.jsx";
 import ProjectDialog from "./components/ProjectDialog.jsx";
 
 export default function App() {
@@ -56,6 +56,7 @@ function Portfolio() {
         <SideQuests />
         <Contact />
       </main>
+      <SiteFooter />
       <ProjectDialog selection={selection} onClose={() => setSelection(null)} />
     </>
   );

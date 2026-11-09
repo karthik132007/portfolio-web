@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <radialGradient id="light" cx=".66" cy=".5" r=".75">
+      <stop stop-color="#362f37"/>
+      <stop offset="1" stop-color="#141318"/>
+    </radialGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M0 32V0H32" fill="none" stroke="#c6b5c0" stroke-opacity=".13"/>
+      <circle cx="0" cy="0" r="1.4" fill="#c6b5c0" opacity=".23"/>
+    </pattern>
+  </defs>
+  <path d="M0 0h800v500H0z" fill="url(#light)"/>
+  <path d="M0 0h800v500H0z" fill="url(#grid)"/>
+  <g fill="none" stroke="#e3bb98">
+    <path d="M34 61V34h27m678 0h27v27m0 378v27h-27m-678 0H34v-27" opacity=".6"/>
+    <g opacity=".22">
+      <circle cx="533" cy="234" r="176"/>
+      <circle cx="533" cy="234" r="132"/>
+      <circle cx="533" cy="234" r="83"/>
+      <path d="M533 57v354M356 234h354" stroke-dasharray="2 8"/>
+    </g>
+    <path d="m533 234-115-102 162-30 90 62-137 70 154 84-83 66-71-150-122 85 86 77 107-12M580 102l-47 132m137-70 17 154m-276 1 7-187m79 264 36-162" opacity=".46" stroke-width="1.6"/>
+    <path d="m418 132 115 102 154 84-83 66" stroke-width="2.6"/>
+    <circle cx="533" cy="234" r="24" opacity=".5"/>
+    <circle cx="533" cy="234" r="36" stroke-dasharray="2 5" opacity=".54"/>
+    <g fill="#29242d" stroke-width="2">
+      <circle cx="418" cy="132" r="10"/>
+      <circle cx="580" cy="102" r="7"/>
+      <circle cx="670" cy="164" r="8"/>
+      <circle cx="687" cy="318" r="10"/>
+      <circle cx="604" cy="384" r="9"/>
+      <circle cx="497" cy="396" r="6"/>
+      <circle cx="411" cy="319" r="7"/>
+    </g>
+  </g>
+  <circle cx="533" cy="234" r="12" fill="#ffcca1"/>
+  <g fill="#cab0a7" opacity=".68">
+    <path d="M70 111h49v2H70zm0 8h31v2H70zm0 8h42v2H70zM645 421h84v2h-84zm17 8h67v2h-67zm26 8h41v2h-41z"/>
+    <circle cx="737" cy="63" r="2"/>
+    <circle cx="725" cy="63" r="2"/>
+    <circle cx="713" cy="63" r="2"/>
+  </g>
+</svg>

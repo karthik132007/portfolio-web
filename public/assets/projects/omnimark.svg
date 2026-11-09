@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <radialGradient id="light" cx=".72" cy=".55" r=".78">
+      <stop stop-color="#633c35"/>
+      <stop offset="1" stop-color="#211720"/>
+    </radialGradient>
+    <linearGradient id="panel" x2="0" y2="1">
+      <stop stop-color="#4b3335"/>
+      <stop offset="1" stop-color="#30232b"/>
+    </linearGradient>
+    <linearGradient id="paper" x2="1" y2="1">
+      <stop stop-color="#fff1d9"/>
+      <stop offset="1" stop-color="#e2b894"/>
+    </linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M0 32V0H32" fill="none" stroke="#e0b8a1" stroke-opacity=".13"/>
+      <circle r="1.4" fill="#e0b8a1" opacity=".23"/>
+    </pattern>
+  </defs>
+  <path d="M0 0h800v500H0z" fill="url(#light)"/>
+  <path d="M0 0h800v500H0z" fill="url(#grid)"/>
+  <g fill="none" stroke="#edc4a1">
+    <path d="M34 61V34h27m678 0h27v27m0 378v27h-27m-678 0H34v-27" opacity=".6"/>
+    <g opacity=".2">
+      <circle cx="658" cy="133" r="78"/>
+      <circle cx="658" cy="133" r="54"/>
+      <path d="M658 44v178M569 133h178" stroke-dasharray="2 7"/>
+      <path d="M49 292h701M124 202v180m184-180v180m184-180v180m184-180v180" stroke-dasharray="2 7"/>
+    </g>
+    <path d="M195 292h39m145 0h39m145 0h39m-376-6 6 6-6 6m184-12 6 6-6 6m184-12 6 6-6 6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g fill="url(#panel)" stroke="#d7a285" stroke-width="1.4">
+    <rect x="53" y="222" width="142" height="140" rx="7"/>
+    <rect x="237" y="222" width="142" height="140" rx="7"/>
+    <rect x="421" y="222" width="142" height="140" rx="7"/>
+    <rect x="605" y="222" width="142" height="140" rx="7" stroke="#f4caa4" stroke-width="2.3"/>
+  </g>
+  <g fill="#f4caa4">
+    <circle cx="195" cy="292" r="3.5"/>
+    <circle cx="379" cy="292" r="3.5"/>
+    <circle cx="563" cy="292" r="3.5"/>
+    <circle cx="658" cy="133" r="3.5"/>
+    <circle cx="737" cy="63" r="2"/>
+    <circle cx="725" cy="63" r="2"/>
+    <circle cx="713" cy="63" r="2"/>
+  </g>
+  <!-- Input: a batch of answer sheets. -->
+  <g transform="translate(84 250)">
+    <rect x="5" y="5" width="58" height="76" rx="4" fill="#996458" transform="rotate(-12 34 43)"/>
+    <rect x="16" y="5" width="58" height="76" rx="4" fill="#bf8873" transform="rotate(10 45 43)"/>
+    <path d="M13 1h39l14 14v65H13z" fill="url(#paper)"/>
+    <path d="M52 1v14h14" fill="#c59172"/>
+    <path d="M24 24h29m-29 12h31m-31 10h24m-24 10h31m-31 10h21" stroke="#805548" stroke-width="2.6" stroke-linecap="round" opacity=".75"/>
+  </g>
+  <!-- Extraction: a scan line resolves handwriting into text. -->
+  <g transform="translate(263 249)">
+    <path d="M22 6h37l13 13v61H22z" fill="#82594f" stroke="#d2a387"/>
+    <path d="M59 6v13h13" fill="none" stroke="#d2a387"/>
+    <path d="M33 28c5-8 9 7 15 0s7 3 13-2m-28 12c8-7 11 5 16 0s8 3 12-1" fill="none" stroke="#f1d0b3" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M33 57h29m-29 8h21" stroke="#f1d0b3" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M8 20V9h11m54 0h11v11m0 48v11H73m-54 0H8V68" fill="none" stroke="#f5c9a2" stroke-width="2.8"/>
+    <path d="M3 47h86" stroke="#ffbc81" stroke-width="7" opacity=".22"/>
+    <path d="M3 47h86" stroke="#ffcfaa" stroke-width="2.5"/>
+  </g>
+  <!-- Grading: extracted text is evaluated against the reference answers. -->
+  <g transform="translate(444 250)" fill="none" stroke="#edbb96" stroke-width="2.4">
+    <path d="M5 9h24v28H5zm0 47h24v28H5zm24-33h14q6 0 6 6v14m-20 27h14q6 0 6-6V47m12-1h24" opacity=".72"/>
+    <path d="M12 18h10m-10 7h7m-7 40h10m-10 7h7" stroke-linecap="round"/>
+    <path d="m49 28 18 18-18 18-18-18z" fill="#f1c19c"/>
+    <path d="m44 46 4 4 7-8" stroke="#5c3736" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="m80 40 6 6-6 6"/>
+  </g>
+  <!-- Output: scores and a marked excerpt with feedback. -->
+  <g transform="translate(631 249)">
+    <rect x="4" y="9" width="78" height="75" rx="5" fill="#211720" opacity=".55"/>
+    <rect x="1" y="4" width="78" height="75" rx="5" fill="url(#paper)"/>
+    <path d="M12 15h18m-18 8h13m-13 13h54m-54 10h45m-45 19h33" stroke="#92685a" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="64" cy="19" r="9" fill="none" stroke="#9c463e" stroke-width="2"/>
+    <path d="m60 19 3 3 5-6" fill="none" stroke="#9c463e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M12 55h48" stroke="#b46b50" stroke-width="6" opacity=".48"/>
+    <path d="M51 49h39v25H73l-10 8v-8H51z" fill="#824944" stroke="#edbb96" stroke-width="1.4"/>
+    <path d="M58 58h24m-24 7h15" stroke="#ffdfc3" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <path d="M53 448h694" stroke="#edc4a1" opacity=".31"/>
+</svg>

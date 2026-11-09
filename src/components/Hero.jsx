@@ -111,9 +111,9 @@ export default function Hero() {
             {t(" then build something useful on the way back.")}
           </p>
         </div>
-        <a className="round-link" href="#work">
+        <a className="round-link" href="#work" aria-label={t("Follow the curiosity")}>
           <span>{t("Follow the curiosity")}</span>
-          <span className="round-arrow">{"↓"}</span>
+          <span className="round-arrow" aria-hidden="true">{"↓"}</span>
         </a>
       </div>
       {"\n"}

@@ -1,0 +1,205 @@
+.quest-log {
+  --quest-inset: clamp(1.1rem, 7.1cqw, 2.75rem);
+  --quest-rule: #cdd0bd;
+  --quest-rail: clamp(1.65rem, 9.2cqw, 3.55rem);
+  container-type: inline-size;
+  min-width: 0;
+  overflow: clip;
+  border: 1px solid var(--quest-rule);
+  border-radius: 1.35rem;
+  background: #f2efe6;
+  color: var(--ink);
+  box-shadow: 0 2px 2px #3b422018;
+}
+
+.quest-log-header {
+  position: relative;
+  isolation: isolate;
+  padding: clamp(1.35rem, 6cqw, 2.35rem) var(--quest-inset) clamp(2.6rem, 13cqw, 5rem);
+  background: radial-gradient(ellipse at 98% 0%, #dce0ca, #f2efe6 68%);
+}
+
+.quest-log-landscape {
+  position: absolute;
+  z-index: -1;
+  inset: auto 0 -1px;
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.quest-log-header::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 45% at 10% 64%, #f2efe6e6, transparent);
+  pointer-events: none;
+}
+
+.quest-log-kicker {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.5rem, 2.7cqw, 1rem);
+  font-size: clamp(0.56rem, 1.85cqw, 0.71rem);
+  line-height: 1.5;
+  letter-spacing: 0.12em;
+}
+
+.quest-log-kicker::before {
+  content: "";
+  flex: 0 1 12cqw;
+  height: 1px;
+  background: var(--olive);
+}
+
+.quest-log-header h3 {
+  margin-top: clamp(0.9rem, 3.5cqw, 1.35rem);
+  font: 400 clamp(1.95rem, 9.8cqw, 3.85rem) / 0.96 Georgia, serif;
+  letter-spacing: -0.055em;
+}
+
+.quest-log-header h3 em {
+  display: block;
+  color: var(--olive);
+  font: italic 1.45em / 0.96 var(--serif);
+  letter-spacing: -0.03em;
+}
+
+.quest-log-intro {
+  max-width: min(70%, 34ch);
+  margin-top: clamp(0.7rem, 2.7cqw, 1.1rem);
+  font-size: clamp(0.78rem, 2.55cqw, 0.99rem);
+  line-height: 1.55;
+}
+
+.quest-log-route {
+  position: relative;
+  margin-top: -0.4rem;
+  padding-inline: var(--quest-inset) clamp(0.95rem, 4.5cqw, 1.75rem);
+}
+
+.quest-log-rail {
+  position: absolute;
+  left: var(--quest-inset);
+  top: 0;
+  width: var(--quest-rail);
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.quest-log-rail path {
+  fill: none;
+  stroke: #77875e;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.quest-log-milestones {
+  display: grid;
+  grid-auto-rows: 1fr;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.quest-log-milestones li {
+  display: grid;
+  grid-template-columns: var(--quest-rail) minmax(0, 1fr);
+  padding-block: clamp(0.35rem, 1.9cqw, 0.75rem);
+}
+
+.quest-log-milestones li::before {
+  content: "";
+  position: relative;
+  z-index: 1;
+  place-self: center start;
+  width: clamp(0.66rem, 3.25cqw, 1.18rem);
+  aspect-ratio: 1;
+  margin-inline-start: calc(var(--quest-rail) * 0.625);
+  translate: -50%;
+  border: 1.5px solid var(--olive);
+  border-radius: 50%;
+  background: #f2efe6;
+}
+
+.quest-log-milestones li:first-child::before {
+  background: var(--olive);
+  box-shadow: inset 0 0 0 1.5px #d8dec7;
+}
+
+.quest-log-card {
+  display: grid;
+  align-content: center;
+  min-width: 0;
+  padding: clamp(0.6rem, 2.8cqw, 1.1rem) clamp(0.65rem, 5.2cqw, 2rem);
+  border: 1px solid var(--quest-rule);
+  border-radius: clamp(0.7rem, 3cqw, 1.2rem);
+  background: linear-gradient(115deg, #f7f5ed, #f0eee3);
+  box-shadow: 0 5px 11px #3b422010;
+}
+
+.quest-log-milestones li:first-child .quest-log-card {
+  border-color: #a4af90;
+  background: linear-gradient(115deg, #e8eadc, #dce1cc);
+  box-shadow: none;
+}
+
+.quest-log-card .mono {
+  display: block;
+  font-size: clamp(0.55rem, 1.8cqw, 0.7rem);
+  line-height: 1.45;
+  letter-spacing: 0.09em;
+}
+
+.quest-log-card h4 {
+  margin: 0.23rem 0 0;
+  font: 400 clamp(1.03rem, 4.15cqw, 1.63rem) / 1.13 Georgia, serif;
+  letter-spacing: -0.035em;
+}
+
+.quest-log-card p {
+  margin-top: 0.26rem;
+  font: 400 clamp(0.83rem, 2.8cqw, 1.12rem) / 1.3 Georgia, serif;
+}
+
+.quest-log-note {
+  display: grid;
+  gap: 0.45rem;
+  padding: clamp(0.75rem, 4cqw, 1.6rem) var(--quest-inset) clamp(1rem, 4.4cqw, 1.75rem);
+  color: var(--olive);
+  font: italic clamp(1.25rem, 4.5cqw, 1.8rem) / 1.25 var(--serif);
+  text-align: center;
+}
+
+.quest-log-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font: normal 1rem / 1 Georgia, serif;
+}
+
+.quest-log-divider::before,
+.quest-log-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #b9c2a7;
+}
+
+@container (max-width: 360px) {
+  .quest-log-header {
+    padding-bottom: 3.65rem;
+  }
+
+  .quest-log-intro {
+    max-width: min(86%, 34ch);
+  }
+
+  .quest-log-route {
+    --quest-rail: 1.45rem;
+    --quest-inset: 0.8rem;
+    padding-right: 0.8rem;
+  }
+}
